@@ -1,0 +1,983 @@
+
+<title>Shoutouts Media™</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+/* =====================
+   DESIGN TOKENS
+   ===================== */
+:root {
+  --navy:      #0A2342;
+  --navy-mid:  #0E2E58;
+  --gold:      #F5A623;
+  --gold-dark: #D48B0E;
+  --gold-pale: #FEF3DC;
+  --cream:     #FAF8F4;
+  --warm-grey: #6B6560;
+  --charcoal:  #1A1208;
+  --white:     #FFFFFF;
+  --rule:      #E2DDD6;
+
+  --bg:        var(--cream);
+  --surface:   var(--white);
+  --text-main: var(--charcoal);
+  --text-mute: var(--warm-grey);
+  --border:    var(--rule);
+  --hero-bg:   var(--navy);
+  --hero-text: var(--white);
+  --badge-bg:  var(--gold-pale);
+  --badge-txt: var(--gold-dark);
+
+  --font-display: 'Arial Black', 'Franklin Gothic Heavy', 'Impact', sans-serif;
+  --font-body:    system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --radius: 4px;
+  --radius-lg: 10px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:        #0F1924;
+    --surface:   #162032;
+    --text-main: #EDE8E0;
+    --text-mute: #9A9490;
+    --border:    #243044;
+    --hero-bg:   #06172B;
+    --hero-text: var(--white);
+    --badge-bg:  #2A1E00;
+    --badge-txt: var(--gold);
+  }
+}
+:root[data-theme="light"] {
+  --bg:        #FAF8F4;
+  --surface:   #FFFFFF;
+  --text-main: #1A1208;
+  --text-mute: #6B6560;
+  --border:    #E2DDD6;
+  --hero-bg:   #0A2342;
+  --hero-text: #FFFFFF;
+  --badge-bg:  #FEF3DC;
+  --badge-txt: #D48B0E;
+}
+:root[data-theme="dark"] {
+  --bg:        #0F1924;
+  --surface:   #162032;
+  --text-main: #EDE8E0;
+  --text-mute: #9A9490;
+  --border:    #243044;
+  --hero-bg:   #06172B;
+  --hero-text: #FFFFFF;
+  --badge-bg:  #2A1E00;
+  --badge-txt: #F5A623;
+}
+
+/* =====================
+   RESET & BASE
+   ===================== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text-main);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+button { cursor: pointer; font-family: inherit; }
+
+/* =====================
+   NAV
+   ===================== */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--hero-bg);
+  border-bottom: 2px solid var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(1rem, 5vw, 3rem);
+  height: 64px;
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.nav-star {
+  width: 28px;
+  height: 28px;
+  fill: var(--gold);
+  flex-shrink: 0;
+}
+.nav-wordmark {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  letter-spacing: 0.03em;
+  color: var(--white);
+  text-transform: uppercase;
+  line-height: 1;
+}
+.nav-wordmark span {
+  color: var(--gold);
+}
+.nav-cta {
+  background: var(--gold);
+  color: var(--charcoal);
+  font-weight: 800;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: none;
+  padding: 0.6rem 1.25rem;
+  border-radius: var(--radius);
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+.nav-cta:hover { background: var(--gold-dark); }
+
+/* =====================
+   HERO
+   ===================== */
+.hero {
+  background: var(--hero-bg);
+  color: var(--hero-text);
+  padding: clamp(4rem, 10vw, 7rem) clamp(1.5rem, 6vw, 4rem);
+  position: relative;
+  overflow: hidden;
+  min-height: 540px;
+  display: flex;
+  align-items: center;
+}
+
+.hero-star-bg {
+  position: absolute;
+  right: -60px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 480px;
+  height: 480px;
+  opacity: 0.05;
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 740px;
+}
+.hero-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.25rem;
+}
+.hero-headline {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5.5vw, 3.6rem);
+  line-height: 1.08;
+  font-weight: 900;
+  text-wrap: balance;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  margin-bottom: 1.5rem;
+}
+.hero-headline .accent { color: var(--gold); }
+.hero-sub {
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  color: rgba(255,255,255,0.78);
+  max-width: 580px;
+  margin-bottom: 2.5rem;
+  line-height: 1.65;
+}
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.btn-primary {
+  background: var(--gold);
+  color: var(--charcoal);
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: none;
+  padding: 0.85rem 2rem;
+  border-radius: var(--radius);
+  transition: background 0.15s, transform 0.1s;
+}
+.btn-primary:hover { background: var(--gold-dark); transform: translateY(-1px); }
+.btn-secondary {
+  background: transparent;
+  color: var(--white);
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 2px solid rgba(255,255,255,0.5);
+  padding: 0.85rem 2rem;
+  border-radius: var(--radius);
+  transition: border-color 0.15s, background 0.15s;
+}
+.btn-secondary:hover { border-color: var(--white); background: rgba(255,255,255,0.07); }
+
+/* =====================
+   TICKER BAND
+   ===================== */
+.ticker-band {
+  background: var(--navy-mid);
+  border-top: 1px solid rgba(245,166,35,0.25);
+  border-bottom: 1px solid rgba(245,166,35,0.25);
+  padding: 0;
+  overflow: hidden;
+}
+.ticker-label {
+  background: var(--gold);
+  color: var(--charcoal);
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 0 1.25rem;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  flex-shrink: 0;
+  height: 48px;
+}
+.ticker-wrapper {
+  display: flex;
+  align-items: center;
+  height: 48px;
+}
+.ticker-track-outer {
+  overflow: hidden;
+  flex: 1;
+}
+.ticker-track {
+  display: flex;
+  gap: 0;
+  animation: ticker-scroll 32s linear infinite;
+  width: max-content;
+}
+.ticker-track:hover { animation-play-state: paused; }
+.ticker-item {
+  color: rgba(255,255,255,0.85);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 0 2rem;
+  border-right: 1px solid rgba(255,255,255,0.12);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 48px;
+}
+.ticker-item::before {
+  content: '★';
+  color: var(--gold);
+  font-size: 0.65rem;
+  flex-shrink: 0;
+}
+@keyframes ticker-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track { animation: none; }
+}
+
+/* =====================
+   SECTION WRAPPER
+   ===================== */
+.section {
+  padding: clamp(3rem, 7vw, 5.5rem) clamp(1.5rem, 6vw, 4rem);
+}
+.section-eyebrow {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold-dark);
+  margin-bottom: 0.6rem;
+}
+.section-heading {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  text-wrap: balance;
+  margin-bottom: 0.5rem;
+}
+.section-sub {
+  font-size: 1rem;
+  color: var(--text-mute);
+  max-width: 520px;
+  margin-bottom: 2.5rem;
+  line-height: 1.65;
+}
+.section-divider {
+  width: 48px;
+  height: 4px;
+  background: var(--gold);
+  margin-bottom: 1.2rem;
+  border-radius: 2px;
+}
+
+/* =====================
+   REGION FILTER
+   ===================== */
+.region-section {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.filter-bar {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+.filter-btn {
+  background: transparent;
+  color: var(--text-mute);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1.5px solid var(--border);
+  border-radius: 2rem;
+  padding: 0.45rem 1.1rem;
+  transition: all 0.15s;
+}
+.filter-btn:hover {
+  border-color: var(--gold);
+  color: var(--text-main);
+}
+.filter-btn.active {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: var(--white);
+}
+.region-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+.region-card {
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.region-card:hover {
+  border-color: var(--gold);
+  box-shadow: 0 4px 16px rgba(245,166,35,0.12);
+}
+.region-card-img {
+  height: 140px;
+  background: linear-gradient(135deg, var(--navy) 0%, #1a3a60 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  position: relative;
+}
+.region-card-img .region-star {
+  position: absolute;
+  font-size: 4rem;
+  color: rgba(245,166,35,0.12);
+}
+.region-card-img .region-name-bg {
+  position: relative;
+  z-index: 1;
+}
+.region-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--badge-bg);
+  color: var(--badge-txt);
+  padding: 0.2rem 0.6rem;
+  border-radius: 2px;
+  margin-bottom: 0.5rem;
+}
+.region-card-body { padding: 1rem 1.1rem 1.2rem; }
+.region-card-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  line-height: 1.35;
+  margin-bottom: 0.35rem;
+}
+.region-card-meta {
+  font-size: 0.78rem;
+  color: var(--text-mute);
+}
+.placeholder-card {
+  border: 1.5px dashed var(--border);
+  border-radius: var(--radius-lg);
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+.placeholder-card p {
+  font-size: 0.9rem;
+  color: var(--text-mute);
+  line-height: 1.5;
+}
+.btn-small {
+  background: var(--gold);
+  color: var(--charcoal);
+  font-weight: 800;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+}
+
+/* =====================
+   SPOTLIGHT SECTION
+   ===================== */
+.spotlight-section {
+  background: var(--bg);
+}
+.spotlight-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 860px;
+}
+.spotlight-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  overflow: hidden;
+  transition: box-shadow 0.15s;
+}
+.spotlight-card:hover {
+  box-shadow: 0 6px 24px rgba(10,35,66,0.1);
+}
+.spotlight-card-img {
+  background: linear-gradient(145deg, #0E2E58 0%, #1a4580 100%);
+  min-height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.2);
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 900;
+  flex-shrink: 0;
+}
+.spotlight-card-body {
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.spotlight-card-tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.tag-region {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--navy);
+  color: var(--white);
+  padding: 0.2rem 0.55rem;
+  border-radius: 2px;
+}
+.tag-type {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--badge-bg);
+  color: var(--badge-txt);
+  padding: 0.2rem 0.55rem;
+  border-radius: 2px;
+}
+.spotlight-card-title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 900;
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+.spotlight-card-body p {
+  font-size: 0.88rem;
+  color: var(--text-mute);
+  line-height: 1.55;
+}
+.spotlight-link {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--gold-dark);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.spotlight-link:hover { text-decoration: underline; }
+
+@media (max-width: 540px) {
+  .spotlight-card { grid-template-columns: 1fr; }
+  .spotlight-card-img { min-height: 120px; }
+}
+
+/* =====================
+   SUBMISSION CTA
+   ===================== */
+.submit-section {
+  background: var(--navy);
+  color: var(--white);
+  position: relative;
+  overflow: hidden;
+}
+.submit-section::before {
+  content: '★';
+  position: absolute;
+  right: -40px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 280px;
+  color: rgba(255,255,255,0.03);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+.submit-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+}
+.submit-eyebrow {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.75rem;
+}
+.submit-headline {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 1.05;
+  text-wrap: balance;
+  margin-bottom: 1.25rem;
+}
+.submit-copy {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.75);
+  line-height: 1.65;
+  max-width: 520px;
+  margin-bottom: 2rem;
+}
+.submit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  max-width: 480px;
+}
+.submit-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.form-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+}
+.form-input, .form-textarea {
+  background: rgba(255,255,255,0.08);
+  border: 1.5px solid rgba(255,255,255,0.15);
+  border-radius: var(--radius);
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  padding: 0.6rem 0.85rem;
+  transition: border-color 0.15s;
+}
+.form-input::placeholder, .form-textarea::placeholder {
+  color: rgba(255,255,255,0.3);
+}
+.form-input:focus, .form-textarea:focus {
+  outline: none;
+  border-color: var(--gold);
+}
+.form-textarea { resize: vertical; min-height: 90px; }
+.form-submit {
+  background: var(--gold);
+  color: var(--charcoal);
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 900;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  border: none;
+  padding: 0.9rem 2rem;
+  border-radius: var(--radius);
+  align-self: flex-start;
+  transition: background 0.15s;
+}
+.form-submit:hover { background: var(--gold-dark); }
+
+@media (max-width: 480px) { .submit-row { grid-template-columns: 1fr; } }
+
+/* =====================
+   FOOTER
+   ===================== */
+.footer {
+  background: var(--charcoal);
+  color: rgba(255,255,255,0.5);
+  padding: 1.5rem clamp(1.5rem, 6vw, 4rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font-size: 0.78rem;
+}
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(255,255,255,0.35);
+  font-weight: 600;
+}
+.footer-brand svg { fill: var(--gold); opacity: 0.6; }
+.footer-attr { font-style: italic; }
+
+/* dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+  .section-eyebrow { color: var(--gold); }
+  .filter-btn.active { background: var(--gold); border-color: var(--gold); color: var(--charcoal); }
+  .tag-region { background: var(--gold); color: var(--charcoal); }
+  .spotlight-link { color: var(--gold); }
+}
+:root[data-theme="dark"] .section-eyebrow { color: var(--gold); }
+:root[data-theme="dark"] .filter-btn.active { background: var(--gold); border-color: var(--gold); color: var(--charcoal); }
+:root[data-theme="dark"] .tag-region { background: var(--gold); color: var(--charcoal); }
+:root[data-theme="dark"] .spotlight-link { color: var(--gold); }
+</style>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">
+    <svg class="nav-star" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <polygon points="25,2 31,18 48,18 34,28 39,45 25,35 11,45 16,28 2,18 19,18" />
+    </svg>
+    <div class="nav-wordmark">Shoutouts <span>Media™</span></div>
+  </div>
+  <button class="nav-cta">Give a Shoutout</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <svg class="hero-star-bg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <polygon points="100,5 121,68 188,68 135,108 155,170 100,130 45,170 65,108 12,68 79,68" fill="white"/>
+  </svg>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Shoutouts Media™ &nbsp;·&nbsp; Powered by community</div>
+    <h1 class="hero-headline">
+      Welcome to Shoutouts Media™<br>
+      <span class="accent">Featuring the Texas Shoutouts™ Network</span>
+    </h1>
+    <p class="hero-sub">Amplifying 30+ Shoutouts communities across Texas. Powered by Shoutouts Media™.</p>
+    <div class="hero-actions">
+      <button class="btn-primary">Send a Texas Shoutout</button>
+      <button class="btn-secondary">Explore the Network</button>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER BAND -->
+<div class="ticker-band">
+  <div class="ticker-wrapper">
+    <div class="ticker-label">Featuring the Texas Shoutouts™ Network</div>
+    <div class="ticker-track-outer">
+      <div class="ticker-track" aria-label="Network publications">
+        <div class="ticker-item">Abilene Shoutouts</div>
+        <div class="ticker-item">Amarillo Shoutouts</div>
+        <div class="ticker-item">Austin Shoutouts</div>
+        <div class="ticker-item">BCS Shoutouts</div>
+        <div class="ticker-item">Corpus Christi Shoutouts</div>
+        <div class="ticker-item">Dallas Shoutouts</div>
+        <div class="ticker-item">El Paso Shoutouts</div>
+        <div class="ticker-item">Fort Worth Shoutouts</div>
+        <div class="ticker-item">Houston Shoutouts</div>
+        <div class="ticker-item">Laredo Shoutouts</div>
+        <div class="ticker-item">Lubbock Shoutouts</div>
+        <div class="ticker-item">McAllen Shoutouts</div>
+        <div class="ticker-item">Midland Shoutouts</div>
+        <div class="ticker-item">San Antonio Shoutouts</div>
+        <div class="ticker-item">San Marcos Shoutouts</div>
+        <div class="ticker-item">Tyler Shoutouts</div>
+        <div class="ticker-item">Waco Shoutouts</div>
+        <div class="ticker-item">Wichita Falls Shoutouts</div>
+        <div class="ticker-item">Burleson Shoutouts</div>
+        <!-- duplicate for seamless loop -->
+        <div class="ticker-item">Abilene Shoutouts</div>
+        <div class="ticker-item">Amarillo Shoutouts</div>
+        <div class="ticker-item">Austin Shoutouts</div>
+        <div class="ticker-item">BCS Shoutouts</div>
+        <div class="ticker-item">Corpus Christi Shoutouts</div>
+        <div class="ticker-item">Dallas Shoutouts</div>
+        <div class="ticker-item">El Paso Shoutouts</div>
+        <div class="ticker-item">Fort Worth Shoutouts</div>
+        <div class="ticker-item">Houston Shoutouts</div>
+        <div class="ticker-item">Laredo Shoutouts</div>
+        <div class="ticker-item">Lubbock Shoutouts</div>
+        <div class="ticker-item">McAllen Shoutouts</div>
+        <div class="ticker-item">Midland Shoutouts</div>
+        <div class="ticker-item">San Antonio Shoutouts</div>
+        <div class="ticker-item">San Marcos Shoutouts</div>
+        <div class="ticker-item">Tyler Shoutouts</div>
+        <div class="ticker-item">Waco Shoutouts</div>
+        <div class="ticker-item">Wichita Falls Shoutouts</div>
+        <div class="ticker-item">Burleson Shoutouts</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 3: REGIONAL HUB -->
+<section class="section region-section">
+  <div class="section-eyebrow">Interactive Network Hub</div>
+  <div class="section-divider"></div>
+  <h2 class="section-heading">Shoutouts Across Texas</h2>
+  <p class="section-sub">Browse by region to see what's happening across the network. Every corner of the Lone Star State has a story worth telling.</p>
+
+  <div class="filter-bar" id="region-filter">
+    <button class="filter-btn active" data-region="all">All Texas</button>
+    <button class="filter-btn" data-region="north">North Texas</button>
+    <button class="filter-btn" data-region="central">Central Texas</button>
+    <button class="filter-btn" data-region="south">South Texas</button>
+    <button class="filter-btn" data-region="gulf">Gulf Coast</button>
+    <button class="filter-btn" data-region="west">West Texas</button>
+    <button class="filter-btn" data-region="hill">Hill Country</button>
+  </div>
+
+  <div class="region-grid" id="region-cards">
+
+    <div class="region-card" data-region="north">
+      <div class="region-card-img">
+        <span class="region-star">★</span>
+        <span class="region-name-bg">North Texas</span>
+      </div>
+      <div class="region-card-body">
+        <div class="region-badge">Dallas · Fort Worth</div>
+        <div class="region-card-title">Frisco Soccer Coach Named Volunteer of the Year</div>
+        <div class="region-card-meta">Dallas Shoutouts &nbsp;·&nbsp; Network Spotlight</div>
+      </div>
+    </div>
+
+    <div class="region-card" data-region="central">
+      <div class="region-card-img">
+        <span class="region-star">★</span>
+        <span class="region-name-bg">Central Texas</span>
+      </div>
+      <div class="region-card-body">
+        <div class="region-badge">Austin · Waco</div>
+        <div class="region-card-title">Round Rock Bakery Celebrates 25 Years of Sweet Success</div>
+        <div class="region-card-meta">Austin Shoutouts &nbsp;·&nbsp; Local Business</div>
+      </div>
+    </div>
+
+    <div class="region-card" data-region="hill">
+      <div class="region-card-img">
+        <span class="region-star">★</span>
+        <span class="region-name-bg">Hill Country</span>
+      </div>
+      <div class="region-card-body">
+        <div class="region-badge">Fredericksburg</div>
+        <div class="region-card-title">Family-Owned Vineyard Wins Texas Wine Championship</div>
+        <div class="region-card-meta">Hill Country Shoutouts &nbsp;·&nbsp; Community Hero</div>
+      </div>
+    </div>
+
+    <div class="region-card" data-region="gulf">
+      <div class="region-card-img">
+        <span class="region-star">★</span>
+        <span class="region-name-bg">Gulf Coast</span>
+      </div>
+      <div class="region-card-body">
+        <div class="region-badge">Houston · McAllen · Brownsville</div>
+        <div class="region-card-title">East Houston Nonprofit Serves 10,000th Free Meal</div>
+        <div class="region-card-meta">Houston Shoutouts &nbsp;·&nbsp; Honorary Shoutout</div>
+      </div>
+    </div>
+
+    <div class="region-card" data-region="south">
+      <div class="region-card-img">
+        <span class="region-star">★</span>
+        <span class="region-name-bg">South Texas</span>
+      </div>
+      <div class="region-card-body">
+        <div class="region-badge">San Antonio · Laredo</div>
+        <div class="region-card-title">San Antonio Teacher Goes Viral for Classroom Innovation</div>
+        <div class="region-card-meta">San Antonio Shoutouts &nbsp;·&nbsp; Network Spotlight</div>
+      </div>
+    </div>
+
+    <div class="placeholder-card" data-region="west">
+      <div class="region-badge">West Texas</div>
+      <p>Be the first to drop a Shoutout in the Permian Basin region! Your community deserves the spotlight.</p>
+      <button class="btn-small">Submit Now</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- SECTION 4: SPOTLIGHT -->
+<section class="section spotlight-section">
+  <div class="section-eyebrow">Network Spotlight</div>
+  <div class="section-divider"></div>
+  <h2 class="section-heading">Honorary Shoutouts</h2>
+  <p class="section-sub">The best from across the network — local businesses, community heroes, and milestones worth celebrating.</p>
+
+  <div class="spotlight-grid">
+
+    <article class="spotlight-card">
+      <div class="spotlight-card-img">Image</div>
+      <div class="spotlight-card-body">
+        <div class="spotlight-card-tags">
+          <span class="tag-region">Dallas</span>
+          <span class="tag-type">Business Shoutout</span>
+        </div>
+        <h3 class="spotlight-card-title">Third-Generation Butcher Shop Keeps Oak Cliff Tradition Alive</h3>
+        <p>The Morales family has been serving the neighborhood since 1968 — hand-cut brisket, fresh tamales, and a community gathering place that no chain could replace.</p>
+        <a href="#" class="spotlight-link">Read the Full Shoutout ›</a>
+      </div>
+    </article>
+
+    <article class="spotlight-card">
+      <div class="spotlight-card-img">Image</div>
+      <div class="spotlight-card-body">
+        <div class="spotlight-card-tags">
+          <span class="tag-region">Austin</span>
+          <span class="tag-type">Community Hero</span>
+        </div>
+        <h3 class="spotlight-card-title">East Austin Coach Turns Empty Lot Into Youth Fitness Hub</h3>
+        <p>Coach Darnell Washington spent two years fundraising and volunteering every weekend to build a free-access training park now used by over 300 kids weekly.</p>
+        <a href="#" class="spotlight-link">Read the Full Shoutout ›</a>
+      </div>
+    </article>
+
+    <article class="spotlight-card">
+      <div class="spotlight-card-img">Image</div>
+      <div class="spotlight-card-body">
+        <div class="spotlight-card-tags">
+          <span class="tag-region">San Antonio</span>
+          <span class="tag-type">Milestone</span>
+        </div>
+        <h3 class="spotlight-card-title">Historic Westside Tortilleria Celebrates 50 Years of Service</h3>
+        <p>What started as a kitchen table operation has grown into a beloved institution — still family-owned, still hand-pressed, still serving the neighborhood that raised it.</p>
+        <a href="#" class="spotlight-link">Read the Full Shoutout ›</a>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- SECTION 5: SUBMISSION ENGINE -->
+<section class="section submit-section">
+  <div class="submit-inner">
+    <div class="submit-eyebrow">Lone Star Legend Program</div>
+    <h2 class="submit-headline">Nominate a<br>Lone Star Legend</h2>
+    <p class="submit-copy">Know a local business, coach, creator, or community hero who deserves the spotlight? Submit a Shoutout. Selected nominations will be broadcast across our entire Shoutouts Media™ network — at no cost to the nominee.</p>
+    <form class="submit-form" onsubmit="return false;">
+      <div class="submit-row">
+        <div class="form-field">
+          <label class="form-label" for="nom-name">Nominee Name</label>
+          <input class="form-input" id="nom-name" type="text" placeholder="Full name or business">
+        </div>
+        <div class="form-field">
+          <label class="form-label" for="nom-city">City / Region</label>
+          <input class="form-input" id="nom-city" type="text" placeholder="e.g. Fort Worth">
+        </div>
+      </div>
+      <div class="form-field">
+        <label class="form-label" for="nom-why">Why do they deserve a Shoutout?</label>
+        <textarea class="form-textarea" id="nom-why" placeholder="Tell us their story in a few sentences..."></textarea>
+      </div>
+      <div class="form-field">
+        <label class="form-label" for="nom-email">Your Email</label>
+        <input class="form-input" id="nom-email" type="email" placeholder="we'll follow up if selected">
+      </div>
+      <button type="submit" class="form-submit">Submit Your Shoutout</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-brand">
+    <svg width="16" height="16" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <polygon points="25,2 31,18 48,18 34,28 39,45 25,35 11,45 16,28 2,18 19,18" />
+    </svg>
+    Shoutouts Media™
+  </div>
+  <div class="footer-attr">A Shoutouts Media™ Brand &nbsp;·&nbsp; © 2026 Shoutouts Media™. All rights reserved.</div>
+</footer>
+
+<script>
+const filterBar = document.getElementById('region-filter');
+const cards = document.querySelectorAll('#region-cards > [data-region]');
+
+filterBar.addEventListener('click', e => {
+  const btn = e.target.closest('.filter-btn');
+  if (!btn) return;
+  filterBar.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const region = btn.dataset.region;
+  cards.forEach(card => {
+    card.style.display = (region === 'all' || card.dataset.region === region) ? '' : 'none';
+  });
+});
+</script>
