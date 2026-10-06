@@ -100,11 +100,14 @@ button { cursor: pointer; font-family: inherit; }
   justify-content: space-between;
   padding: 0 clamp(1rem, 5vw, 3rem);
   height: 64px;
+  gap: 1rem;
 }
 .nav-logo {
   display: flex;
   align-items: center;
   gap: 10px;
+  flex-shrink: 0;
+  text-decoration: none;
 }
 .nav-star {
   width: 28px;
@@ -123,6 +126,30 @@ button { cursor: pointer; font-family: inherit; }
 .nav-wordmark span {
   color: var(--gold);
 }
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  list-style: none;
+}
+.nav-links a {
+  color: rgba(255,255,255,0.75);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--radius);
+  transition: color 0.15s, background 0.15s;
+  white-space: nowrap;
+}
+.nav-links a:hover {
+  color: var(--white);
+  background: rgba(255,255,255,0.08);
+}
+.nav-links a.active {
+  color: var(--gold);
+}
 .nav-cta {
   background: var(--gold);
   color: var(--charcoal);
@@ -135,8 +162,57 @@ button { cursor: pointer; font-family: inherit; }
   border-radius: var(--radius);
   transition: background 0.15s;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 .nav-cta:hover { background: var(--gold-dark); }
+
+/* mobile nav */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  padding: 4px;
+}
+.nav-hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--white);
+  border-radius: 2px;
+  transition: all 0.2s;
+}
+.nav-mobile-menu {
+  display: none;
+  position: fixed;
+  top: 66px;
+  left: 0;
+  right: 0;
+  background: var(--navy);
+  border-bottom: 2px solid var(--gold);
+  padding: 1rem clamp(1rem, 5vw, 3rem);
+  z-index: 99;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.nav-mobile-menu.open { display: flex; }
+.nav-mobile-menu a {
+  color: rgba(255,255,255,0.8);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.6rem 0.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.nav-mobile-menu a:last-child { border-bottom: none; }
+
+@media (max-width: 720px) {
+  .nav-links { display: none; }
+  .nav-cta { display: none; }
+  .nav-hamburger { display: flex; }
+}
 
 /* =====================
    HERO
@@ -211,6 +287,7 @@ button { cursor: pointer; font-family: inherit; }
   padding: 0.85rem 2rem;
   border-radius: var(--radius);
   transition: background 0.15s, transform 0.1s;
+  display: inline-block;
 }
 .btn-primary:hover { background: var(--gold-dark); transform: translateY(-1px); }
 .btn-secondary {
@@ -225,6 +302,7 @@ button { cursor: pointer; font-family: inherit; }
   padding: 0.85rem 2rem;
   border-radius: var(--radius);
   transition: border-color 0.15s, background 0.15s;
+  display: inline-block;
 }
 .btn-secondary:hover { border-color: var(--white); background: rgba(255,255,255,0.07); }
 
@@ -265,7 +343,7 @@ button { cursor: pointer; font-family: inherit; }
 .ticker-track {
   display: flex;
   gap: 0;
-  animation: ticker-scroll 32s linear infinite;
+  animation: ticker-scroll 36s linear infinite;
   width: max-content;
 }
 .ticker-track:hover { animation-play-state: paused; }
@@ -281,6 +359,8 @@ button { cursor: pointer; font-family: inherit; }
   align-items: center;
   gap: 0.5rem;
   height: 48px;
+  text-decoration: none;
+  transition: color 0.15s;
 }
 .ticker-item::before {
   content: '★';
@@ -288,6 +368,7 @@ button { cursor: pointer; font-family: inherit; }
   font-size: 0.65rem;
   flex-shrink: 0;
 }
+.ticker-item:hover { color: var(--gold); }
 @keyframes ticker-scroll {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
@@ -381,6 +462,8 @@ button { cursor: pointer; font-family: inherit; }
   border-radius: var(--radius-lg);
   overflow: hidden;
   transition: border-color 0.15s, box-shadow 0.15s;
+  text-decoration: none;
+  display: block;
 }
 .region-card:hover {
   border-color: var(--gold);
@@ -429,6 +512,7 @@ button { cursor: pointer; font-family: inherit; }
   font-size: 0.95rem;
   line-height: 1.35;
   margin-bottom: 0.35rem;
+  color: var(--text-main);
 }
 .region-card-meta {
   font-size: 0.78rem;
@@ -561,6 +645,119 @@ button { cursor: pointer; font-family: inherit; }
 }
 
 /* =====================
+   ABOUT SECTION
+   ===================== */
+.about-section {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+}
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+  max-width: 1100px;
+}
+.about-body p {
+  font-size: 1rem;
+  color: var(--text-mute);
+  line-height: 1.75;
+  margin-bottom: 1.25rem;
+}
+.about-body p:last-child { margin-bottom: 0; }
+.about-body strong { color: var(--text-main); font-weight: 700; }
+.about-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.stat-block {
+  border-left: 3px solid var(--gold);
+  padding-left: 1.25rem;
+}
+.stat-number {
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: var(--text-main);
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+.stat-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+}
+
+@media (max-width: 700px) {
+  .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+}
+
+/* =====================
+   COMING SOON SECTIONS
+   ===================== */
+.coming-soon-section {
+  border-top: 1px solid var(--border);
+}
+.coming-soon-section:nth-of-type(odd) {
+  background: var(--bg);
+}
+.coming-soon-section:nth-of-type(even) {
+  background: var(--surface);
+}
+.coming-soon-inner {
+  max-width: 680px;
+}
+.coming-soon-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  background: var(--navy);
+  color: var(--gold);
+  padding: 0.35rem 0.85rem;
+  border-radius: 2rem;
+  margin-bottom: 1.5rem;
+}
+.coming-soon-points {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+.coming-soon-points li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-size: 0.95rem;
+  color: var(--text-mute);
+  line-height: 1.55;
+}
+.coming-soon-points li::before {
+  content: '★';
+  color: var(--gold);
+  font-size: 0.7rem;
+  flex-shrink: 0;
+  margin-top: 0.3rem;
+}
+.coming-soon-cta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.coming-soon-note {
+  font-size: 0.82rem;
+  color: var(--text-mute);
+}
+
+/* =====================
    SUBMISSION CTA
    ===================== */
 .submit-section {
@@ -568,6 +765,7 @@ button { cursor: pointer; font-family: inherit; }
   color: var(--white);
   position: relative;
   overflow: hidden;
+  border-top: 1px solid rgba(245,166,35,0.2);
 }
 .submit-section::before {
   content: '★';
@@ -675,25 +873,72 @@ button { cursor: pointer; font-family: inherit; }
 .footer {
   background: var(--charcoal);
   color: rgba(255,255,255,0.5);
-  padding: 1.5rem clamp(1.5rem, 6vw, 4rem);
+  padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 6vw, 4rem);
+}
+.footer-top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.footer-brand-col {}
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--white);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+.footer-brand svg { fill: var(--gold); }
+.footer-brand span { color: var(--gold); }
+.footer-desc {
+  font-size: 0.85rem;
+  line-height: 1.65;
+  color: rgba(255,255,255,0.45);
+  max-width: 280px;
+}
+.footer-col-heading {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1rem;
+}
+.footer-col-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.footer-col-links a {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.55);
+  transition: color 0.15s;
+}
+.footer-col-links a:hover { color: var(--white); }
+.footer-bottom {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
   flex-wrap: wrap;
-  font-size: 0.78rem;
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.3);
 }
-.footer-brand {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: rgba(255,255,255,0.35);
-  font-weight: 600;
-}
-.footer-brand svg { fill: var(--gold); opacity: 0.6; }
-.footer-attr { font-style: italic; }
 
-/* dark mode adjustments */
+@media (max-width: 640px) {
+  .footer-top { grid-template-columns: 1fr; gap: 1.75rem; }
+}
+
+/* dark mode tweaks */
 @media (prefers-color-scheme: dark) {
   .section-eyebrow { color: var(--gold); }
   .filter-btn.active { background: var(--gold); border-color: var(--gold); color: var(--charcoal); }
@@ -708,17 +953,34 @@ button { cursor: pointer; font-family: inherit; }
 
 <!-- NAV -->
 <nav class="nav">
-  <div class="nav-logo">
+  <a href="#home" class="nav-logo">
     <svg class="nav-star" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <polygon points="25,2 31,18 48,18 34,28 39,45 25,35 11,45 16,28 2,18 19,18" />
     </svg>
     <div class="nav-wordmark">Shoutouts <span>Media™</span></div>
-  </div>
-  <button class="nav-cta">Give a Shoutout</button>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#advertise">Advertising</a></li>
+    <li><a href="#publishers">Publishers</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('nominate').scrollIntoView({behavior:'smooth'})">Give a Shoutout</button>
+  <button class="nav-hamburger" id="hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
+<div class="nav-mobile-menu" id="mobile-menu">
+  <a href="#home">Home</a>
+  <a href="#about">About</a>
+  <a href="#advertise">Advertising</a>
+  <a href="#publishers">Publishers</a>
+  <a href="#nominate">Give a Shoutout</a>
+</div>
+
 <!-- HERO -->
-<section class="hero">
+<section class="hero" id="home">
   <svg class="hero-star-bg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <polygon points="100,5 121,68 188,68 135,108 155,170 100,130 45,170 65,108 12,68 79,68" fill="white"/>
   </svg>
@@ -726,12 +988,12 @@ button { cursor: pointer; font-family: inherit; }
     <div class="hero-eyebrow">Shoutouts Media™ &nbsp;·&nbsp; Powered by community</div>
     <h1 class="hero-headline">
       Welcome to Shoutouts Media™<br>
-      <span class="accent">Featuring the Texas Shoutouts™ Network</span>
+      <span class="accent">Home of the Texas Shoutouts™ Network</span>
     </h1>
-    <p class="hero-sub">Amplifying 30+ Shoutouts communities across Texas. Powered by Shoutouts Media™.</p>
+    <p class="hero-sub">The media company behind 70+ local community publications across Texas. We celebrate the people, businesses, and stories that make the Lone Star State great.</p>
     <div class="hero-actions">
-      <button class="btn-primary">Send a Texas Shoutout</button>
-      <button class="btn-secondary">Explore the Network</button>
+      <a href="#nominate" class="btn-primary">Give a Shoutout</a>
+      <a href="#network" class="btn-secondary">Explore the Network</a>
     </div>
   </div>
 </section>
@@ -739,59 +1001,197 @@ button { cursor: pointer; font-family: inherit; }
 <!-- TICKER BAND -->
 <div class="ticker-band">
   <div class="ticker-wrapper">
-    <div class="ticker-label">Featuring the Texas Shoutouts™ Network</div>
+    <div class="ticker-label">Texas Shoutouts™ Network</div>
     <div class="ticker-track-outer">
       <div class="ticker-track" aria-label="Network publications">
-        <div class="ticker-item">Abilene Shoutouts</div>
-        <div class="ticker-item">Amarillo Shoutouts</div>
-        <div class="ticker-item">Austin Shoutouts</div>
-        <div class="ticker-item">BCS Shoutouts</div>
-        <div class="ticker-item">Corpus Christi Shoutouts</div>
-        <div class="ticker-item">Dallas Shoutouts</div>
-        <div class="ticker-item">El Paso Shoutouts</div>
-        <div class="ticker-item">Fort Worth Shoutouts</div>
-        <div class="ticker-item">Houston Shoutouts</div>
-        <div class="ticker-item">Laredo Shoutouts</div>
-        <div class="ticker-item">Lubbock Shoutouts</div>
-        <div class="ticker-item">McAllen Shoutouts</div>
-        <div class="ticker-item">Midland Shoutouts</div>
-        <div class="ticker-item">San Antonio Shoutouts</div>
-        <div class="ticker-item">San Marcos Shoutouts</div>
-        <div class="ticker-item">Tyler Shoutouts</div>
-        <div class="ticker-item">Waco Shoutouts</div>
-        <div class="ticker-item">Wichita Falls Shoutouts</div>
-        <div class="ticker-item">Burleson Shoutouts</div>
+        <a class="ticker-item" href="https://abileneshoutouts.com">Abilene Shoutouts™</a>
+        <a class="ticker-item" href="https://allenshoutouts.com">Allen Shoutouts™</a>
+        <a class="ticker-item" href="https://amarilloshoutouts.com">Amarillo Shoutouts™</a>
+        <a class="ticker-item" href="https://arlingtonshoutouts.com">Arlington Shoutouts™</a>
+        <a class="ticker-item" href="https://austinshoutouts.com">Austin Shoutouts™</a>
+        <a class="ticker-item" href="https://bcsshoutouts.com">BCS Shoutouts™</a>
+        <a class="ticker-item" href="https://beaumonttxshoutouts.com">Beaumont Shoutouts™</a>
+        <a class="ticker-item" href="https://boerneshoutouts.com">Boerne Shoutouts™</a>
+        <a class="ticker-item" href="https://brownsvilleshoutouts.com">Brownsville Shoutouts™</a>
+        <a class="ticker-item" href="https://burlesonshoutouts.com">Burleson Shoutouts™</a>
+        <a class="ticker-item" href="https://carrolltonshoutouts.com">Carrollton Shoutouts™</a>
+        <a class="ticker-item" href="https://cedarparkshoutouts.com">Cedar Park Shoutouts™</a>
+        <a class="ticker-item" href="https://celinashoutouts.com">Celina Shoutouts™</a>
+        <a class="ticker-item" href="https://colleyvilleshoutouts.com">Colleyville Shoutouts™</a>
+        <a class="ticker-item" href="https://conroeshoutouts.com">Conroe Shoutouts™</a>
+        <a class="ticker-item" href="https://corpuschristishoutouts.com">Corpus Christi Shoutouts™</a>
+        <a class="ticker-item" href="https://dallasshoutouts.com">Dallas Shoutouts™</a>
+        <a class="ticker-item" href="https://dentonshoutouts.com">Denton Shoutouts™</a>
+        <a class="ticker-item" href="https://drippingspringsshoutouts.com">Dripping Springs Shoutouts™</a>
+        <a class="ticker-item" href="https://edinburgshoutouts.com">Edinburg Shoutouts™</a>
+        <a class="ticker-item" href="https://elpasoshoutouts.com">El Paso Shoutouts™</a>
+        <a class="ticker-item" href="https://flowermoundshoutouts.com">Flower Mound Shoutouts™</a>
+        <a class="ticker-item" href="https://fortworthshoutouts.com">Fort Worth Shoutouts™</a>
+        <a class="ticker-item" href="https://fredericksburgshoutouts.com">Fredericksburg Shoutouts™</a>
+        <a class="ticker-item" href="https://friscoshoutouts.com">Frisco Shoutouts™</a>
+        <a class="ticker-item" href="https://fulshearshoutouts.com">Fulshear Shoutouts™</a>
+        <a class="ticker-item" href="https://galvestonshoutouts.com">Galveston Shoutouts™</a>
+        <a class="ticker-item" href="https://garlandshoutouts.com">Garland Shoutouts™</a>
+        <a class="ticker-item" href="https://georgetownshoutouts.com">Georgetown Shoutouts™</a>
+        <a class="ticker-item" href="https://granburyshoutouts.com">Granbury Shoutouts™</a>
+        <a class="ticker-item" href="https://grandprairieshoutouts.com">Grand Prairie Shoutouts™</a>
+        <a class="ticker-item" href="https://grapevineshoutouts.com">Grapevine Shoutouts™</a>
+        <a class="ticker-item" href="https://hillcountryshoutouts.com">Hill Country Shoutouts™</a>
+        <a class="ticker-item" href="https://houstontxshoutouts.com">Houston Shoutouts™</a>
+        <a class="ticker-item" href="https://irvingshoutouts.com">Irving Shoutouts™</a>
+        <a class="ticker-item" href="https://katyshoutouts.com">Katy Shoutouts™</a>
+        <a class="ticker-item" href="https://kellershoutouts.com">Keller Shoutouts™</a>
+        <a class="ticker-item" href="https://killeenshoutouts.com">Killeen Shoutouts™</a>
+        <a class="ticker-item" href="https://laredoshoutouts.com">Laredo Shoutouts™</a>
+        <a class="ticker-item" href="https://leaguecityshoutouts.com">League City Shoutouts™</a>
+        <a class="ticker-item" href="https://leandershoutouts.com">Leander Shoutouts™</a>
+        <a class="ticker-item" href="https://lewisvilleshoutouts.com">Lewisville Shoutouts™</a>
+        <a class="ticker-item" href="https://lubbockshoutouts.com">Lubbock Shoutouts™</a>
+        <a class="ticker-item" href="https://mansfieldshoutouts.com">Mansfield Shoutouts™</a>
+        <a class="ticker-item" href="https://mcallenshoutouts.com">McAllen Shoutouts™</a>
+        <a class="ticker-item" href="https://mckinneyshoutouts.com">McKinney Shoutouts™</a>
+        <a class="ticker-item" href="https://mesquiteshoutouts.com">Mesquite Shoutouts™</a>
+        <a class="ticker-item" href="https://midcitiesshoutouts.com">Mid-Cities Shoutouts™</a>
+        <a class="ticker-item" href="https://midlandshoutouts.com">Midland Shoutouts™</a>
+        <a class="ticker-item" href="https://newbraunfelsshoutouts.com">New Braunfels Shoutouts™</a>
+        <a class="ticker-item" href="https://odessashoutouts.com">Odessa Shoutouts™</a>
+        <a class="ticker-item" href="https://pasadenatxshoutouts.com">Pasadena Shoutouts™</a>
+        <a class="ticker-item" href="https://pearlandshoutouts.com">Pearland Shoutouts™</a>
+        <a class="ticker-item" href="https://permianbasinshoutouts.com">Permian Basin Shoutouts™</a>
+        <a class="ticker-item" href="https://pflugervilleshoutouts.com">Pflugerville Shoutouts™</a>
+        <a class="ticker-item" href="https://planoshoutouts.com">Plano Shoutouts™</a>
+        <a class="ticker-item" href="https://prospershoutouts.com">Prosper Shoutouts™</a>
+        <a class="ticker-item" href="https://richardsonshoutouts.com">Richardson Shoutouts™</a>
+        <a class="ticker-item" href="https://rockportshoutouts.com">Rockport Shoutouts™</a>
+        <a class="ticker-item" href="https://rockwallshoutouts.com">Rockwall Shoutouts™</a>
+        <a class="ticker-item" href="https://rowlettshoutouts.com">Rowlett Shoutouts™</a>
+        <a class="ticker-item" href="https://sanangeloshoutouts.com">San Angelo Shoutouts™</a>
+        <a class="ticker-item" href="https://sanantonioshoutouts.com">San Antonio Shoutouts™</a>
+        <a class="ticker-item" href="https://sanmarcosshoutouts.com">San Marcos Shoutouts™</a>
+        <a class="ticker-item" href="https://southlakeshoutouts.com">Southlake Shoutouts™</a>
+        <a class="ticker-item" href="https://springshoutouts.com">Spring Shoutouts™</a>
+        <a class="ticker-item" href="https://sugarlandshoutouts.com">Sugar Land Shoutouts™</a>
+        <a class="ticker-item" href="https://templeshoutouts.com">Temple Shoutouts™</a>
+        <a class="ticker-item" href="https://thewoodlandsshoutouts.com">The Woodlands Shoutouts™</a>
+        <a class="ticker-item" href="https://tylershoutouts.com">Tyler Shoutouts™</a>
+        <a class="ticker-item" href="https://wacoshoutouts.com">Waco Shoutouts™</a>
+        <a class="ticker-item" href="https://wichitafallsshoutouts.com">Wichita Falls Shoutouts™</a>
+        <a class="ticker-item" href="https://bedford.midcitiesshoutouts.com">Bedford Shoutouts™</a>
+        <a class="ticker-item" href="https://euless.midcitiesshoutouts.com">Euless Shoutouts™</a>
+        <a class="ticker-item" href="https://hurst.midcitiesshoutouts.com">Hurst Shoutouts™</a>
+        <a class="ticker-item" href="https://haltomcity.midcitiesshoutouts.com">Haltom City Shoutouts™</a>
+        <a class="ticker-item" href="https://watauga.midcitiesshoutouts.com">Watauga Shoutouts™</a>
+        <a class="ticker-item" href="https://nrh.midcitiesshoutouts.com">North Richland Hills Shoutouts™</a>
+        <a class="ticker-item" href="https://bryanshoutouts.com">Bryan Shoutouts™</a>
+        <a class="ticker-item" href="https://collegestationshoutouts.com">College Station Shoutouts™</a>
+        <a class="ticker-item" href="https://cantonlake.hillcountryshoutouts.com">Canyon Lake Shoutouts™</a>
+        <a class="ticker-item" href="https://marblefalls.hillcountryshoutouts.com">Marble Falls Shoutouts™</a>
+        <a class="ticker-item" href="https://kerrville.hillcountryshoutouts.com">Kerrville Shoutouts™</a>
+        <a class="ticker-item" href="https://schertz.hillcountryshoutouts.com">Schertz Shoutouts™</a>
+        <a class="ticker-item" href="https://andrews.permianbasinsshoutouts.com">Andrews Shoutouts™</a>
+        <a class="ticker-item" href="https://bigspring.permianbasinsshoutouts.com">Big Spring Shoutouts™</a>
+        <a class="ticker-item" href="https://monahans.permianbasinsshoutouts.com">Monahans Shoutouts™</a>
+        <a class="ticker-item" href="https://pecos.permianbasinsshoutouts.com">Pecos Shoutouts™</a>
         <!-- duplicate for seamless loop -->
-        <div class="ticker-item">Abilene Shoutouts</div>
-        <div class="ticker-item">Amarillo Shoutouts</div>
-        <div class="ticker-item">Austin Shoutouts</div>
-        <div class="ticker-item">BCS Shoutouts</div>
-        <div class="ticker-item">Corpus Christi Shoutouts</div>
-        <div class="ticker-item">Dallas Shoutouts</div>
-        <div class="ticker-item">El Paso Shoutouts</div>
-        <div class="ticker-item">Fort Worth Shoutouts</div>
-        <div class="ticker-item">Houston Shoutouts</div>
-        <div class="ticker-item">Laredo Shoutouts</div>
-        <div class="ticker-item">Lubbock Shoutouts</div>
-        <div class="ticker-item">McAllen Shoutouts</div>
-        <div class="ticker-item">Midland Shoutouts</div>
-        <div class="ticker-item">San Antonio Shoutouts</div>
-        <div class="ticker-item">San Marcos Shoutouts</div>
-        <div class="ticker-item">Tyler Shoutouts</div>
-        <div class="ticker-item">Waco Shoutouts</div>
-        <div class="ticker-item">Wichita Falls Shoutouts</div>
-        <div class="ticker-item">Burleson Shoutouts</div>
+        <a class="ticker-item" href="https://abileneshoutouts.com">Abilene Shoutouts™</a>
+        <a class="ticker-item" href="https://allenshoutouts.com">Allen Shoutouts™</a>
+        <a class="ticker-item" href="https://amarilloshoutouts.com">Amarillo Shoutouts™</a>
+        <a class="ticker-item" href="https://arlingtonshoutouts.com">Arlington Shoutouts™</a>
+        <a class="ticker-item" href="https://austinshoutouts.com">Austin Shoutouts™</a>
+        <a class="ticker-item" href="https://bcsshoutouts.com">BCS Shoutouts™</a>
+        <a class="ticker-item" href="https://beaumonttxshoutouts.com">Beaumont Shoutouts™</a>
+        <a class="ticker-item" href="https://boerneshoutouts.com">Boerne Shoutouts™</a>
+        <a class="ticker-item" href="https://brownsvilleshoutouts.com">Brownsville Shoutouts™</a>
+        <a class="ticker-item" href="https://burlesonshoutouts.com">Burleson Shoutouts™</a>
+        <a class="ticker-item" href="https://carrolltonshoutouts.com">Carrollton Shoutouts™</a>
+        <a class="ticker-item" href="https://cedarparkshoutouts.com">Cedar Park Shoutouts™</a>
+        <a class="ticker-item" href="https://celinashoutouts.com">Celina Shoutouts™</a>
+        <a class="ticker-item" href="https://colleyvilleshoutouts.com">Colleyville Shoutouts™</a>
+        <a class="ticker-item" href="https://conroeshoutouts.com">Conroe Shoutouts™</a>
+        <a class="ticker-item" href="https://corpuschristishoutouts.com">Corpus Christi Shoutouts™</a>
+        <a class="ticker-item" href="https://dallasshoutouts.com">Dallas Shoutouts™</a>
+        <a class="ticker-item" href="https://dentonshoutouts.com">Denton Shoutouts™</a>
+        <a class="ticker-item" href="https://drippingspringsshoutouts.com">Dripping Springs Shoutouts™</a>
+        <a class="ticker-item" href="https://edinburgshoutouts.com">Edinburg Shoutouts™</a>
+        <a class="ticker-item" href="https://elpasoshoutouts.com">El Paso Shoutouts™</a>
+        <a class="ticker-item" href="https://flowermoundshoutouts.com">Flower Mound Shoutouts™</a>
+        <a class="ticker-item" href="https://fortworthshoutouts.com">Fort Worth Shoutouts™</a>
+        <a class="ticker-item" href="https://fredericksburgshoutouts.com">Fredericksburg Shoutouts™</a>
+        <a class="ticker-item" href="https://friscoshoutouts.com">Frisco Shoutouts™</a>
+        <a class="ticker-item" href="https://fulshearshoutouts.com">Fulshear Shoutouts™</a>
+        <a class="ticker-item" href="https://galvestonshoutouts.com">Galveston Shoutouts™</a>
+        <a class="ticker-item" href="https://garlandshoutouts.com">Garland Shoutouts™</a>
+        <a class="ticker-item" href="https://georgetownshoutouts.com">Georgetown Shoutouts™</a>
+        <a class="ticker-item" href="https://granburyshoutouts.com">Granbury Shoutouts™</a>
+        <a class="ticker-item" href="https://grandprairieshoutouts.com">Grand Prairie Shoutouts™</a>
+        <a class="ticker-item" href="https://grapevineshoutouts.com">Grapevine Shoutouts™</a>
+        <a class="ticker-item" href="https://hillcountryshoutouts.com">Hill Country Shoutouts™</a>
+        <a class="ticker-item" href="https://houstontxshoutouts.com">Houston Shoutouts™</a>
+        <a class="ticker-item" href="https://irvingshoutouts.com">Irving Shoutouts™</a>
+        <a class="ticker-item" href="https://katyshoutouts.com">Katy Shoutouts™</a>
+        <a class="ticker-item" href="https://kellershoutouts.com">Keller Shoutouts™</a>
+        <a class="ticker-item" href="https://killeenshoutouts.com">Killeen Shoutouts™</a>
+        <a class="ticker-item" href="https://laredoshoutouts.com">Laredo Shoutouts™</a>
+        <a class="ticker-item" href="https://leaguecityshoutouts.com">League City Shoutouts™</a>
+        <a class="ticker-item" href="https://leandershoutouts.com">Leander Shoutouts™</a>
+        <a class="ticker-item" href="https://lewisvilleshoutouts.com">Lewisville Shoutouts™</a>
+        <a class="ticker-item" href="https://lubbockshoutouts.com">Lubbock Shoutouts™</a>
+        <a class="ticker-item" href="https://mansfieldshoutouts.com">Mansfield Shoutouts™</a>
+        <a class="ticker-item" href="https://mcallenshoutouts.com">McAllen Shoutouts™</a>
+        <a class="ticker-item" href="https://mckinneyshoutouts.com">McKinney Shoutouts™</a>
+        <a class="ticker-item" href="https://mesquiteshoutouts.com">Mesquite Shoutouts™</a>
+        <a class="ticker-item" href="https://midcitiesshoutouts.com">Mid-Cities Shoutouts™</a>
+        <a class="ticker-item" href="https://midlandshoutouts.com">Midland Shoutouts™</a>
+        <a class="ticker-item" href="https://newbraunfelsshoutouts.com">New Braunfels Shoutouts™</a>
+        <a class="ticker-item" href="https://odessashoutouts.com">Odessa Shoutouts™</a>
+        <a class="ticker-item" href="https://pasadenatxshoutouts.com">Pasadena Shoutouts™</a>
+        <a class="ticker-item" href="https://pearlandshoutouts.com">Pearland Shoutouts™</a>
+        <a class="ticker-item" href="https://permianbasinshoutouts.com">Permian Basin Shoutouts™</a>
+        <a class="ticker-item" href="https://pflugervilleshoutouts.com">Pflugerville Shoutouts™</a>
+        <a class="ticker-item" href="https://planoshoutouts.com">Plano Shoutouts™</a>
+        <a class="ticker-item" href="https://prospershoutouts.com">Prosper Shoutouts™</a>
+        <a class="ticker-item" href="https://richardsonshoutouts.com">Richardson Shoutouts™</a>
+        <a class="ticker-item" href="https://rockportshoutouts.com">Rockport Shoutouts™</a>
+        <a class="ticker-item" href="https://rockwallshoutouts.com">Rockwall Shoutouts™</a>
+        <a class="ticker-item" href="https://rowlettshoutouts.com">Rowlett Shoutouts™</a>
+        <a class="ticker-item" href="https://sanangeloshoutouts.com">San Angelo Shoutouts™</a>
+        <a class="ticker-item" href="https://sanantonioshoutouts.com">San Antonio Shoutouts™</a>
+        <a class="ticker-item" href="https://sanmarcosshoutouts.com">San Marcos Shoutouts™</a>
+        <a class="ticker-item" href="https://southlakeshoutouts.com">Southlake Shoutouts™</a>
+        <a class="ticker-item" href="https://springshoutouts.com">Spring Shoutouts™</a>
+        <a class="ticker-item" href="https://sugarlandshoutouts.com">Sugar Land Shoutouts™</a>
+        <a class="ticker-item" href="https://templeshoutouts.com">Temple Shoutouts™</a>
+        <a class="ticker-item" href="https://thewoodlandsshoutouts.com">The Woodlands Shoutouts™</a>
+        <a class="ticker-item" href="https://tylershoutouts.com">Tyler Shoutouts™</a>
+        <a class="ticker-item" href="https://wacoshoutouts.com">Waco Shoutouts™</a>
+        <a class="ticker-item" href="https://wichitafallsshoutouts.com">Wichita Falls Shoutouts™</a>
+        <a class="ticker-item" href="https://bedford.midcitiesshoutouts.com">Bedford Shoutouts™</a>
+        <a class="ticker-item" href="https://euless.midcitiesshoutouts.com">Euless Shoutouts™</a>
+        <a class="ticker-item" href="https://hurst.midcitiesshoutouts.com">Hurst Shoutouts™</a>
+        <a class="ticker-item" href="https://haltomcity.midcitiesshoutouts.com">Haltom City Shoutouts™</a>
+        <a class="ticker-item" href="https://watauga.midcitiesshoutouts.com">Watauga Shoutouts™</a>
+        <a class="ticker-item" href="https://nrh.midcitiesshoutouts.com">North Richland Hills Shoutouts™</a>
+        <a class="ticker-item" href="https://bryanshoutouts.com">Bryan Shoutouts™</a>
+        <a class="ticker-item" href="https://collegestationshoutouts.com">College Station Shoutouts™</a>
+        <a class="ticker-item" href="https://cantonlake.hillcountryshoutouts.com">Canyon Lake Shoutouts™</a>
+        <a class="ticker-item" href="https://marblefalls.hillcountryshoutouts.com">Marble Falls Shoutouts™</a>
+        <a class="ticker-item" href="https://kerrville.hillcountryshoutouts.com">Kerrville Shoutouts™</a>
+        <a class="ticker-item" href="https://schertz.hillcountryshoutouts.com">Schertz Shoutouts™</a>
+        <a class="ticker-item" href="https://andrews.permianbasinsshoutouts.com">Andrews Shoutouts™</a>
+        <a class="ticker-item" href="https://bigspring.permianbasinsshoutouts.com">Big Spring Shoutouts™</a>
+        <a class="ticker-item" href="https://monahans.permianbasinsshoutouts.com">Monahans Shoutouts™</a>
+        <a class="ticker-item" href="https://pecos.permianbasinsshoutouts.com">Pecos Shoutouts™</a>
       </div>
     </div>
   </div>
 </div>
 
-<!-- SECTION 3: REGIONAL HUB -->
-<section class="section region-section">
+<!-- SECTION: REGIONAL HUB -->
+<section class="section region-section" id="network">
   <div class="section-eyebrow">Interactive Network Hub</div>
   <div class="section-divider"></div>
   <h2 class="section-heading">Shoutouts Across Texas</h2>
-  <p class="section-sub">Browse by region to see what's happening across the network. Every corner of the Lone Star State has a story worth telling.</p>
+  <p class="section-sub">Browse by region to find your community's publication. Every corner of the Lone Star State has a story worth telling.</p>
 
   <div class="filter-bar" id="region-filter">
     <button class="filter-btn active" data-region="all">All Texas</button>
@@ -801,136 +1201,198 @@ button { cursor: pointer; font-family: inherit; }
     <button class="filter-btn" data-region="gulf">Gulf Coast</button>
     <button class="filter-btn" data-region="west">West Texas</button>
     <button class="filter-btn" data-region="hill">Hill Country</button>
+    <button class="filter-btn" data-region="east">East Texas</button>
   </div>
 
   <div class="region-grid" id="region-cards">
 
-    <div class="region-card" data-region="north">
-      <div class="region-card-img">
-        <span class="region-star">★</span>
-        <span class="region-name-bg">North Texas</span>
-      </div>
-      <div class="region-card-body">
-        <div class="region-badge">Dallas · Fort Worth</div>
-        <div class="region-card-title">Frisco Soccer Coach Named Volunteer of the Year</div>
-        <div class="region-card-meta">Dallas Shoutouts &nbsp;·&nbsp; Network Spotlight</div>
-      </div>
-    </div>
+    <!-- NORTH TEXAS / DFW -->
+    <a class="region-card" data-region="north" href="https://dallasshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">North Texas</span></div><div class="region-card-body"><div class="region-badge">DFW Metroplex</div><div class="region-card-title">Dallas Shoutouts™</div><div class="region-card-meta">dallasshoutouts.com</div></div></a>
+    <a class="region-card" data-region="north" href="https://fortworthshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">North Texas</span></div><div class="region-card-body"><div class="region-badge">DFW Metroplex</div><div class="region-card-title">Fort Worth Shoutouts™</div><div class="region-card-meta">fortworthshoutouts.com</div></div></a>
+    <a class="region-card" data-region="north" href="https://arlingtonshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">North Texas</span></div><div class="region-card-body"><div class="region-badge">DFW Metroplex</div><div class="region-card-title">Arlington Shoutouts™</div><div class="region-card-meta">arlingtonshoutouts.com</div></div></a>
+    <a class="region-card" data-region="north" href="https://planoshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">North Texas</span></div><div class="region-card-body"><div class="region-badge">DFW Metroplex</div><div class="region-card-title">Plano Shoutouts™</div><div class="region-card-meta">planoshoutouts.com</div></div></a>
+    <a class="region-card" data-region="north" href="https://friscoshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">North Texas</span></div><div class="region-card-body"><div class="region-badge">DFW Metroplex</div><div class="region-card-title">Frisco Shoutouts™</div><div class="region-card-meta">friscoshoutouts.com</div></div></a>
+    <a class="region-card" data-region="north" href="https://mckinneyshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">North Texas</span></div><div class="region-card-body"><div class="region-badge">DFW Metroplex</div><div class="region-card-title">McKinney Shoutouts™</div><div class="region-card-meta">mckinneyshoutouts.com</div></div></a>
+    <a class="region-card" data-region="north" href="https://dentonshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">North Texas</span></div><div class="region-card-body"><div class="region-badge">DFW Metroplex</div><div class="region-card-title">Denton Shoutouts™</div><div class="region-card-meta">dentonshoutouts.com</div></div></a>
+    <a class="region-card" data-region="north" href="https://grapevineshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">North Texas</span></div><div class="region-card-body"><div class="region-badge">DFW Metroplex</div><div class="region-card-title">Grapevine Shoutouts™</div><div class="region-card-meta">grapevineshoutouts.com</div></div></a>
+    <a class="region-card" data-region="north" href="https://irvingshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">North Texas</span></div><div class="region-card-body"><div class="region-badge">DFW Metroplex</div><div class="region-card-title">Irving Shoutouts™</div><div class="region-card-meta">irvingshoutouts.com</div></div></a>
+    <a class="region-card" data-region="north" href="https://garlandshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">North Texas</span></div><div class="region-card-body"><div class="region-badge">DFW Metroplex</div><div class="region-card-title">Garland Shoutouts™</div><div class="region-card-meta">garlandshoutouts.com</div></div></a>
+    <a class="region-card" data-region="north" href="https://grandprairieshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">North Texas</span></div><div class="region-card-body"><div class="region-badge">DFW Metroplex</div><div class="region-card-title">Grand Prairie Shoutouts™</div><div class="region-card-meta">grandprairieshoutouts.com</div></div></a>
+    <a class="region-card" data-region="north" href="https://mansfieldshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">North Texas</span></div><div class="region-card-body"><div class="region-badge">DFW Metroplex</div><div class="region-card-title">Mansfield Shoutouts™</div><div class="region-card-meta">mansfieldshoutouts.com</div></div></a>
+    <a class="region-card" data-region="north" href="https://burlesonshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">North Texas</span></div><div class="region-card-body"><div class="region-badge">DFW Metroplex</div><div class="region-card-title">Burleson Shoutouts™</div><div class="region-card-meta">burlesonshoutouts.com</div></div></a>
+    <a class="region-card" data-region="north" href="https://kellershoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">North Texas</span></div><div class="region-card-body"><div class="region-badge">DFW Metroplex</div><div class="region-card-title">Keller Shoutouts™</div><div class="region-card-meta">kellershoutouts.com</div></div></a>
+    <a class="region-card" data-region="north" href="https://southlakeshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">North Texas</span></div><div class="region-card-body"><div class="region-badge">DFW Metroplex</div><div class="region-card-title">Southlake Shoutouts™</div><div class="region-card-meta">southlakeshoutouts.com</div></div></a>
+    <a class="region-card" data-region="north" href="https://colleyvilleshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">North Texas</span></div><div class="region-card-body"><div class="region-badge">DFW Metroplex</div><div class="region-card-title">Colleyville Shoutouts™</div><div class="region-card-meta">colleyvilleshoutouts.com</div></div></a>
+    <a class="region-card" data-region="north" href="https://flowermoundshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">North Texas</span></div><div class="region-card-body"><div class="region-badge">DFW Metroplex</div><div class="region-card-title">Flower Mound Shoutouts™</div><div class="region-card-meta">flowermoundshoutouts.com</div></div></a>
+    <a class="region-card" data-region="north" href="https://lewisvilleshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">North Texas</span></div><div class="region-card-body"><div class="region-badge">DFW Metroplex</div><div class="region-card-title">Lewisville Shoutouts™</div><div class="region-card-meta">lewisvilleshoutouts.com</div></div></a>
+    <a class="region-card" data-region="north" href="https://carrolltonshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">North Texas</span></div><div class="region-card-body"><div class="region-badge">DFW Metroplex</div><div class="region-card-title">Carrollton Shoutouts™</div><div class="region-card-meta">carrolltonshoutouts.com</div></div></a>
+    <a class="region-card" data-region="north" href="https://richardsonshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">North Texas</span></div><div class="region-card-body"><div class="region-badge">DFW Metroplex</div><div class="region-card-title">Richardson Shoutouts™</div><div class="region-card-meta">richardsonshoutouts.com</div></div></a>
+    <a class="region-card" data-region="north" href="https://allenshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">North Texas</span></div><div class="region-card-body"><div class="region-badge">DFW Metroplex</div><div class="region-card-title">Allen Shoutouts™</div><div class="region-card-meta">allenshoutouts.com</div></div></a>
+    <a class="region-card" data-region="north" href="https://prospershoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">North Texas</span></div><div class="region-card-body"><div class="region-badge">DFW Metroplex</div><div class="region-card-title">Prosper Shoutouts™</div><div class="region-card-meta">prospershoutouts.com</div></div></a>
+    <a class="region-card" data-region="north" href="https://celinashoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">North Texas</span></div><div class="region-card-body"><div class="region-badge">DFW Metroplex</div><div class="region-card-title">Celina Shoutouts™</div><div class="region-card-meta">celinashoutouts.com</div></div></a>
+    <a class="region-card" data-region="north" href="https://mesquiteshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">North Texas</span></div><div class="region-card-body"><div class="region-badge">DFW Metroplex</div><div class="region-card-title">Mesquite Shoutouts™</div><div class="region-card-meta">mesquiteshoutouts.com</div></div></a>
+    <a class="region-card" data-region="north" href="https://rockwallshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">North Texas</span></div><div class="region-card-body"><div class="region-badge">DFW Metroplex</div><div class="region-card-title">Rockwall Shoutouts™</div><div class="region-card-meta">rockwallshoutouts.com</div></div></a>
+    <a class="region-card" data-region="north" href="https://rowlettshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">North Texas</span></div><div class="region-card-body"><div class="region-badge">DFW Metroplex</div><div class="region-card-title">Rowlett Shoutouts™</div><div class="region-card-meta">rowlettshoutouts.com</div></div></a>
+    <a class="region-card" data-region="north" href="https://midcitiesshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">North Texas</span></div><div class="region-card-body"><div class="region-badge">Mid-Cities</div><div class="region-card-title">Mid-Cities Shoutouts™</div><div class="region-card-meta">midcitiesshoutouts.com</div></div></a>
+    <a class="region-card" data-region="north" href="https://bedford.midcitiesshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">North Texas</span></div><div class="region-card-body"><div class="region-badge">Mid-Cities</div><div class="region-card-title">Bedford Shoutouts™</div><div class="region-card-meta">bedford.midcitiesshoutouts.com</div></div></a>
+    <a class="region-card" data-region="north" href="https://euless.midcitiesshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">North Texas</span></div><div class="region-card-body"><div class="region-badge">Mid-Cities</div><div class="region-card-title">Euless Shoutouts™</div><div class="region-card-meta">euless.midcitiesshoutouts.com</div></div></a>
+    <a class="region-card" data-region="north" href="https://hurst.midcitiesshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">North Texas</span></div><div class="region-card-body"><div class="region-badge">Mid-Cities</div><div class="region-card-title">Hurst Shoutouts™</div><div class="region-card-meta">hurst.midcitiesshoutouts.com</div></div></a>
+    <a class="region-card" data-region="north" href="https://haltomcity.midcitiesshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">North Texas</span></div><div class="region-card-body"><div class="region-badge">Mid-Cities</div><div class="region-card-title">Haltom City Shoutouts™</div><div class="region-card-meta">haltomcity.midcitiesshoutouts.com</div></div></a>
+    <a class="region-card" data-region="north" href="https://watauga.midcitiesshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">North Texas</span></div><div class="region-card-body"><div class="region-badge">Mid-Cities</div><div class="region-card-title">Watauga Shoutouts™</div><div class="region-card-meta">watauga.midcitiesshoutouts.com</div></div></a>
+    <a class="region-card" data-region="north" href="https://nrh.midcitiesshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">North Texas</span></div><div class="region-card-body"><div class="region-badge">Mid-Cities</div><div class="region-card-title">North Richland Hills Shoutouts™</div><div class="region-card-meta">nrh.midcitiesshoutouts.com</div></div></a>
+    <a class="region-card" data-region="north" href="https://granburyshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">North Texas</span></div><div class="region-card-body"><div class="region-badge">North Texas</div><div class="region-card-title">Granbury Shoutouts™</div><div class="region-card-meta">granburyshoutouts.com</div></div></a>
 
-    <div class="region-card" data-region="central">
-      <div class="region-card-img">
-        <span class="region-star">★</span>
-        <span class="region-name-bg">Central Texas</span>
-      </div>
-      <div class="region-card-body">
-        <div class="region-badge">Austin · Waco</div>
-        <div class="region-card-title">Round Rock Bakery Celebrates 25 Years of Sweet Success</div>
-        <div class="region-card-meta">Austin Shoutouts &nbsp;·&nbsp; Local Business</div>
-      </div>
-    </div>
+    <!-- CENTRAL TEXAS -->
+    <a class="region-card" data-region="central" href="https://austinshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">Central Texas</span></div><div class="region-card-body"><div class="region-badge">Central Texas</div><div class="region-card-title">Austin Shoutouts™</div><div class="region-card-meta">austinshoutouts.com</div></div></a>
+    <a class="region-card" data-region="central" href="https://wacoshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">Central Texas</span></div><div class="region-card-body"><div class="region-badge">Central Texas</div><div class="region-card-title">Waco Shoutouts™</div><div class="region-card-meta">wacoshoutouts.com</div></div></a>
+    <a class="region-card" data-region="central" href="https://bcsshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">Central Texas</span></div><div class="region-card-body"><div class="region-badge">Bryan-College Station</div><div class="region-card-title">BCS Shoutouts™</div><div class="region-card-meta">bcsshoutouts.com</div></div></a>
+    <a class="region-card" data-region="central" href="https://sanmarcosshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">Central Texas</span></div><div class="region-card-body"><div class="region-badge">Central Texas</div><div class="region-card-title">San Marcos Shoutouts™</div><div class="region-card-meta">sanmarcosshoutouts.com</div></div></a>
+    <a class="region-card" data-region="central" href="https://killeenshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">Central Texas</span></div><div class="region-card-body"><div class="region-badge">Central Texas</div><div class="region-card-title">Killeen Shoutouts™</div><div class="region-card-meta">killeenshoutouts.com</div></div></a>
+    <a class="region-card" data-region="central" href="https://templeshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">Central Texas</span></div><div class="region-card-body"><div class="region-badge">Central Texas</div><div class="region-card-title">Temple Shoutouts™</div><div class="region-card-meta">templeshoutouts.com</div></div></a>
+    <a class="region-card" data-region="central" href="https://cedarparkshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">Central Texas</span></div><div class="region-card-body"><div class="region-badge">Austin Metro</div><div class="region-card-title">Cedar Park Shoutouts™</div><div class="region-card-meta">cedarparkshoutouts.com</div></div></a>
+    <a class="region-card" data-region="central" href="https://leandershoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">Central Texas</span></div><div class="region-card-body"><div class="region-badge">Austin Metro</div><div class="region-card-title">Leander Shoutouts™</div><div class="region-card-meta">leandershoutouts.com</div></div></a>
+    <a class="region-card" data-region="central" href="https://georgetownshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">Central Texas</span></div><div class="region-card-body"><div class="region-badge">Austin Metro</div><div class="region-card-title">Georgetown Shoutouts™</div><div class="region-card-meta">georgetownshoutouts.com</div></div></a>
+    <a class="region-card" data-region="central" href="https://pflugervilleshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">Central Texas</span></div><div class="region-card-body"><div class="region-badge">Austin Metro</div><div class="region-card-title">Pflugerville Shoutouts™</div><div class="region-card-meta">pflugervilleshoutouts.com</div></div></a>
+    <a class="region-card" data-region="central" href="https://drippingspringsshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">Central Texas</span></div><div class="region-card-body"><div class="region-badge">Austin Metro</div><div class="region-card-title">Dripping Springs Shoutouts™</div><div class="region-card-meta">drippingspringsshoutouts.com</div></div></a>
+    <a class="region-card" data-region="central" href="https://newbraunfelsshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">Central Texas</span></div><div class="region-card-body"><div class="region-badge">Central Texas</div><div class="region-card-title">New Braunfels Shoutouts™</div><div class="region-card-meta">newbraunfelsshoutouts.com</div></div></a>
+    <a class="region-card" data-region="central" href="https://bryanshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">Central Texas</span></div><div class="region-card-body"><div class="region-badge">Bryan-College Station</div><div class="region-card-title">Bryan Shoutouts™</div><div class="region-card-meta">bryanshoutouts.com</div></div></a>
+    <a class="region-card" data-region="central" href="https://collegestationshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">Central Texas</span></div><div class="region-card-body"><div class="region-badge">Bryan-College Station</div><div class="region-card-title">College Station Shoutouts™</div><div class="region-card-meta">collegestationshoutouts.com</div></div></a>
 
-    <div class="region-card" data-region="hill">
-      <div class="region-card-img">
-        <span class="region-star">★</span>
-        <span class="region-name-bg">Hill Country</span>
-      </div>
-      <div class="region-card-body">
-        <div class="region-badge">Fredericksburg</div>
-        <div class="region-card-title">Family-Owned Vineyard Wins Texas Wine Championship</div>
-        <div class="region-card-meta">Hill Country Shoutouts &nbsp;·&nbsp; Community Hero</div>
-      </div>
-    </div>
+    <!-- GULF COAST -->
+    <a class="region-card" data-region="gulf" href="https://houstontxshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">Gulf Coast</span></div><div class="region-card-body"><div class="region-badge">Gulf Coast</div><div class="region-card-title">Houston Shoutouts™</div><div class="region-card-meta">houstontxshoutouts.com</div></div></a>
+    <a class="region-card" data-region="gulf" href="https://conroeshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">Gulf Coast</span></div><div class="region-card-body"><div class="region-badge">Houston Metro</div><div class="region-card-title">Conroe Shoutouts™</div><div class="region-card-meta">conroeshoutouts.com</div></div></a>
+    <a class="region-card" data-region="gulf" href="https://thewoodlandsshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">Gulf Coast</span></div><div class="region-card-body"><div class="region-badge">Houston Metro</div><div class="region-card-title">The Woodlands Shoutouts™</div><div class="region-card-meta">thewoodlandsshoutouts.com</div></div></a>
+    <a class="region-card" data-region="gulf" href="https://katyshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">Gulf Coast</span></div><div class="region-card-body"><div class="region-badge">Houston Metro</div><div class="region-card-title">Katy Shoutouts™</div><div class="region-card-meta">katyshoutouts.com</div></div></a>
+    <a class="region-card" data-region="gulf" href="https://sugarlandshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">Gulf Coast</span></div><div class="region-card-body"><div class="region-badge">Houston Metro</div><div class="region-card-title">Sugar Land Shoutouts™</div><div class="region-card-meta">sugarlandshoutouts.com</div></div></a>
+    <a class="region-card" data-region="gulf" href="https://pearlandshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">Gulf Coast</span></div><div class="region-card-body"><div class="region-badge">Houston Metro</div><div class="region-card-title">Pearland Shoutouts™</div><div class="region-card-meta">pearlandshoutouts.com</div></div></a>
+    <a class="region-card" data-region="gulf" href="https://leaguecityshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">Gulf Coast</span></div><div class="region-card-body"><div class="region-badge">Houston Metro</div><div class="region-card-title">League City Shoutouts™</div><div class="region-card-meta">leaguecityshoutouts.com</div></div></a>
+    <a class="region-card" data-region="gulf" href="https://fulshearshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">Gulf Coast</span></div><div class="region-card-body"><div class="region-badge">Houston Metro</div><div class="region-card-title">Fulshear Shoutouts™</div><div class="region-card-meta">fulshearshoutouts.com</div></div></a>
+    <a class="region-card" data-region="gulf" href="https://springshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">Gulf Coast</span></div><div class="region-card-body"><div class="region-badge">Houston Metro</div><div class="region-card-title">Spring Shoutouts™</div><div class="region-card-meta">springshoutouts.com</div></div></a>
+    <a class="region-card" data-region="gulf" href="https://pasadenatxshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">Gulf Coast</span></div><div class="region-card-body"><div class="region-badge">Houston Metro</div><div class="region-card-title">Pasadena Shoutouts™</div><div class="region-card-meta">pasadenatxshoutouts.com</div></div></a>
+    <a class="region-card" data-region="gulf" href="https://beaumonttxshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">Gulf Coast</span></div><div class="region-card-body"><div class="region-badge">Gulf Coast</div><div class="region-card-title">Beaumont Shoutouts™</div><div class="region-card-meta">beaumonttxshoutouts.com</div></div></a>
+    <a class="region-card" data-region="gulf" href="https://galvestonshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">Gulf Coast</span></div><div class="region-card-body"><div class="region-badge">Gulf Coast</div><div class="region-card-title">Galveston Shoutouts™</div><div class="region-card-meta">galvestonshoutouts.com</div></div></a>
+    <a class="region-card" data-region="gulf" href="https://corpuschristishoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">Gulf Coast</span></div><div class="region-card-body"><div class="region-badge">Gulf Coast</div><div class="region-card-title">Corpus Christi Shoutouts™</div><div class="region-card-meta">corpuschristishoutouts.com</div></div></a>
+    <a class="region-card" data-region="gulf" href="https://rockportshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">Gulf Coast</span></div><div class="region-card-body"><div class="region-badge">Gulf Coast</div><div class="region-card-title">Rockport Shoutouts™</div><div class="region-card-meta">rockportshoutouts.com</div></div></a>
 
-    <div class="region-card" data-region="gulf">
-      <div class="region-card-img">
-        <span class="region-star">★</span>
-        <span class="region-name-bg">Gulf Coast</span>
-      </div>
-      <div class="region-card-body">
-        <div class="region-badge">Houston · McAllen · Brownsville</div>
-        <div class="region-card-title">East Houston Nonprofit Serves 10,000th Free Meal</div>
-        <div class="region-card-meta">Houston Shoutouts &nbsp;·&nbsp; Honorary Shoutout</div>
-      </div>
-    </div>
+    <!-- SOUTH TEXAS -->
+    <a class="region-card" data-region="south" href="https://sanantonioshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">South Texas</span></div><div class="region-card-body"><div class="region-badge">South Texas</div><div class="region-card-title">San Antonio Shoutouts™</div><div class="region-card-meta">sanantonioshoutouts.com</div></div></a>
+    <a class="region-card" data-region="south" href="https://laredoshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">South Texas</span></div><div class="region-card-body"><div class="region-badge">South Texas</div><div class="region-card-title">Laredo Shoutouts™</div><div class="region-card-meta">laredoshoutouts.com</div></div></a>
+    <a class="region-card" data-region="south" href="https://mcallenshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">South Texas</span></div><div class="region-card-body"><div class="region-badge">Rio Grande Valley</div><div class="region-card-title">McAllen Shoutouts™</div><div class="region-card-meta">mcallenshoutouts.com</div></div></a>
+    <a class="region-card" data-region="south" href="https://edinburgshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">South Texas</span></div><div class="region-card-body"><div class="region-badge">Rio Grande Valley</div><div class="region-card-title">Edinburg Shoutouts™</div><div class="region-card-meta">edinburgshoutouts.com</div></div></a>
+    <a class="region-card" data-region="south" href="https://brownsvilleshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">South Texas</span></div><div class="region-card-body"><div class="region-badge">Rio Grande Valley</div><div class="region-card-title">Brownsville Shoutouts™</div><div class="region-card-meta">brownsvilleshoutouts.com</div></div></a>
+    <a class="region-card" data-region="south" href="https://boerneshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">South Texas</span></div><div class="region-card-body"><div class="region-badge">San Antonio Metro</div><div class="region-card-title">Boerne Shoutouts™</div><div class="region-card-meta">boerneshoutouts.com</div></div></a>
 
-    <div class="region-card" data-region="south">
-      <div class="region-card-img">
-        <span class="region-star">★</span>
-        <span class="region-name-bg">South Texas</span>
-      </div>
-      <div class="region-card-body">
-        <div class="region-badge">San Antonio · Laredo</div>
-        <div class="region-card-title">San Antonio Teacher Goes Viral for Classroom Innovation</div>
-        <div class="region-card-meta">San Antonio Shoutouts &nbsp;·&nbsp; Network Spotlight</div>
-      </div>
-    </div>
+    <!-- HILL COUNTRY -->
+    <a class="region-card" data-region="hill" href="https://hillcountryshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">Hill Country</span></div><div class="region-card-body"><div class="region-badge">Hill Country</div><div class="region-card-title">Hill Country Shoutouts™</div><div class="region-card-meta">hillcountryshoutouts.com</div></div></a>
+    <a class="region-card" data-region="hill" href="https://fredericksburgshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">Hill Country</span></div><div class="region-card-body"><div class="region-badge">Hill Country</div><div class="region-card-title">Fredericksburg Shoutouts™</div><div class="region-card-meta">fredericksburgshoutouts.com</div></div></a>
+    <a class="region-card" data-region="hill" href="https://kerrville.hillcountryshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">Hill Country</span></div><div class="region-card-body"><div class="region-badge">Hill Country</div><div class="region-card-title">Kerrville Shoutouts™</div><div class="region-card-meta">kerrville.hillcountryshoutouts.com</div></div></a>
+    <a class="region-card" data-region="hill" href="https://cantonlake.hillcountryshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">Hill Country</span></div><div class="region-card-body"><div class="region-badge">Hill Country</div><div class="region-card-title">Canyon Lake Shoutouts™</div><div class="region-card-meta">cantonlake.hillcountryshoutouts.com</div></div></a>
+    <a class="region-card" data-region="hill" href="https://marblefalls.hillcountryshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">Hill Country</span></div><div class="region-card-body"><div class="region-badge">Hill Country</div><div class="region-card-title">Marble Falls Shoutouts™</div><div class="region-card-meta">marblefalls.hillcountryshoutouts.com</div></div></a>
+    <a class="region-card" data-region="hill" href="https://schertz.hillcountryshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">Hill Country</span></div><div class="region-card-body"><div class="region-badge">San Antonio Area</div><div class="region-card-title">Schertz Shoutouts™</div><div class="region-card-meta">schertz.hillcountryshoutouts.com</div></div></a>
+    <a class="region-card" data-region="east" href="https://tylershoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">East Texas</span></div><div class="region-card-body"><div class="region-badge">East Texas</div><div class="region-card-title">Tyler Shoutouts™</div><div class="region-card-meta">tylershoutouts.com</div></div></a>
+    <a class="region-card" data-region="hill" href="https://sanangeloshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">West Central Texas</span></div><div class="region-card-body"><div class="region-badge">West Central Texas</div><div class="region-card-title">San Angelo Shoutouts™</div><div class="region-card-meta">sanangeloshoutouts.com</div></div></a>
 
-    <div class="placeholder-card" data-region="west">
-      <div class="region-badge">West Texas</div>
-      <p>Be the first to drop a Shoutout in the Permian Basin region! Your community deserves the spotlight.</p>
-      <button class="btn-small">Submit Now</button>
-    </div>
+    <!-- WEST TEXAS -->
+    <a class="region-card" data-region="west" href="https://elpasoshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">West Texas</span></div><div class="region-card-body"><div class="region-badge">West Texas</div><div class="region-card-title">El Paso Shoutouts™</div><div class="region-card-meta">elpasoshoutouts.com</div></div></a>
+    <a class="region-card" data-region="west" href="https://midlandshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">West Texas</span></div><div class="region-card-body"><div class="region-badge">Permian Basin</div><div class="region-card-title">Midland Shoutouts™</div><div class="region-card-meta">midlandshoutouts.com</div></div></a>
+    <a class="region-card" data-region="west" href="https://odessashoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">West Texas</span></div><div class="region-card-body"><div class="region-badge">Permian Basin</div><div class="region-card-title">Odessa Shoutouts™</div><div class="region-card-meta">odessashoutouts.com</div></div></a>
+    <a class="region-card" data-region="west" href="https://permianbasinshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">West Texas</span></div><div class="region-card-body"><div class="region-badge">Permian Basin</div><div class="region-card-title">Permian Basin Shoutouts™</div><div class="region-card-meta">permianbasinshoutouts.com</div></div></a>
+    <a class="region-card" data-region="west" href="https://lubbockshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">West Texas</span></div><div class="region-card-body"><div class="region-badge">West Texas</div><div class="region-card-title">Lubbock Shoutouts™</div><div class="region-card-meta">lubbockshoutouts.com</div></div></a>
+    <a class="region-card" data-region="west" href="https://amarilloshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">West Texas</span></div><div class="region-card-body"><div class="region-badge">Texas Panhandle</div><div class="region-card-title">Amarillo Shoutouts™</div><div class="region-card-meta">amarilloshoutouts.com</div></div></a>
+    <a class="region-card" data-region="west" href="https://wichitafallsshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">West Texas</span></div><div class="region-card-body"><div class="region-badge">North Texas</div><div class="region-card-title">Wichita Falls Shoutouts™</div><div class="region-card-meta">wichitafallsshoutouts.com</div></div></a>
+    <a class="region-card" data-region="west" href="https://abileneshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">West Texas</span></div><div class="region-card-body"><div class="region-badge">West Texas</div><div class="region-card-title">Abilene Shoutouts™</div><div class="region-card-meta">abileneshoutouts.com</div></div></a>
+    <a class="region-card" data-region="west" href="https://andrews.permianbasinsshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">West Texas</span></div><div class="region-card-body"><div class="region-badge">Permian Basin</div><div class="region-card-title">Andrews Shoutouts™</div><div class="region-card-meta">andrews.permianbasinsshoutouts.com</div></div></a>
+    <a class="region-card" data-region="west" href="https://bigspring.permianbasinsshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">West Texas</span></div><div class="region-card-body"><div class="region-badge">Permian Basin</div><div class="region-card-title">Big Spring Shoutouts™</div><div class="region-card-meta">bigspring.permianbasinsshoutouts.com</div></div></a>
+    <a class="region-card" data-region="west" href="https://monahans.permianbasinsshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">West Texas</span></div><div class="region-card-body"><div class="region-badge">Permian Basin</div><div class="region-card-title">Monahans Shoutouts™</div><div class="region-card-meta">monahans.permianbasinsshoutouts.com</div></div></a>
+    <a class="region-card" data-region="west" href="https://pecos.permianbasinsshoutouts.com"><div class="region-card-img"><span class="region-star">★</span><span class="region-name-bg">West Texas</span></div><div class="region-card-body"><div class="region-badge">Permian Basin</div><div class="region-card-title">Pecos Shoutouts™</div><div class="region-card-meta">pecos.permianbasinsshoutouts.com</div></div></a>
 
   </div>
 </section>
 
-<!-- SECTION 4: SPOTLIGHT -->
-<section class="section spotlight-section">
-  <div class="section-eyebrow">Network Spotlight</div>
+<!-- SECTION: ABOUT -->
+<section class="section about-section" id="about">
+  <div class="section-eyebrow">About the Network</div>
   <div class="section-divider"></div>
-  <h2 class="section-heading">Honorary Shoutouts</h2>
-  <p class="section-sub">The best from across the network — local businesses, community heroes, and milestones worth celebrating.</p>
-
-  <div class="spotlight-grid">
-
-    <article class="spotlight-card">
-      <div class="spotlight-card-img">Image</div>
-      <div class="spotlight-card-body">
-        <div class="spotlight-card-tags">
-          <span class="tag-region">Dallas</span>
-          <span class="tag-type">Business Shoutout</span>
-        </div>
-        <h3 class="spotlight-card-title">Third-Generation Butcher Shop Keeps Oak Cliff Tradition Alive</h3>
-        <p>The Morales family has been serving the neighborhood since 1968 — hand-cut brisket, fresh tamales, and a community gathering place that no chain could replace.</p>
-        <a href="#" class="spotlight-link">Read the Full Shoutout ›</a>
+  <h2 class="section-heading">The Media Company Behind Texas Shoutouts™</h2>
+  <div class="about-grid">
+    <div class="about-body">
+      <p><strong>Shoutouts Media™</strong> is an independent media company built on a simple belief: every Texas community has stories worth telling. We launched the Texas Shoutouts™ Network to give local businesses, coaches, creators, and community heroes the spotlight they deserve - without the gatekeeping of big-market media.</p>
+      <p>Each publication in our network is locally focused, editorially independent, and powered by real community submissions. We don't manufacture stories. We amplify the ones already happening in your neighborhood - the 30-year family restaurant, the volunteer who shows up every week, the teacher who changes lives without recognition.</p>
+      <p>Shoutouts Media™ operates the Texas Shoutouts™ Network across 70+ communities statewide, with more markets launching throughout 2026. Our mission is to build the most trusted hyperlocal media network in Texas - and eventually, well beyond it.</p>
+    </div>
+    <div class="about-stats">
+      <div class="stat-block">
+        <div class="stat-number">70+</div>
+        <div class="stat-label">Texas Communities</div>
       </div>
-    </article>
-
-    <article class="spotlight-card">
-      <div class="spotlight-card-img">Image</div>
-      <div class="spotlight-card-body">
-        <div class="spotlight-card-tags">
-          <span class="tag-region">Austin</span>
-          <span class="tag-type">Community Hero</span>
-        </div>
-        <h3 class="spotlight-card-title">East Austin Coach Turns Empty Lot Into Youth Fitness Hub</h3>
-        <p>Coach Darnell Washington spent two years fundraising and volunteering every weekend to build a free-access training park now used by over 300 kids weekly.</p>
-        <a href="#" class="spotlight-link">Read the Full Shoutout ›</a>
+      <div class="stat-block">
+        <div class="stat-number">2026</div>
+        <div class="stat-label">Founded</div>
       </div>
-    </article>
-
-    <article class="spotlight-card">
-      <div class="spotlight-card-img">Image</div>
-      <div class="spotlight-card-body">
-        <div class="spotlight-card-tags">
-          <span class="tag-region">San Antonio</span>
-          <span class="tag-type">Milestone</span>
-        </div>
-        <h3 class="spotlight-card-title">Historic Westside Tortilleria Celebrates 50 Years of Service</h3>
-        <p>What started as a kitchen table operation has grown into a beloved institution — still family-owned, still hand-pressed, still serving the neighborhood that raised it.</p>
-        <a href="#" class="spotlight-link">Read the Full Shoutout ›</a>
+      <div class="stat-block">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Community Driven</div>
       </div>
-    </article>
-
+      <div class="stat-block">
+        <div class="stat-number">Texas</div>
+        <div class="stat-label">Always First</div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- SECTION 5: SUBMISSION ENGINE -->
-<section class="section submit-section">
+<!-- SECTION: ADVERTISE -->
+<section class="section coming-soon-section" id="advertise">
+  <div class="coming-soon-inner">
+    <div class="coming-soon-badge">
+      <span>★</span> Coming Soon
+    </div>
+    <div class="section-eyebrow">Advertise With Us</div>
+    <div class="section-divider"></div>
+    <h2 class="section-heading">Reach Real Texas Communities</h2>
+    <p class="section-sub">Advertising with Shoutouts Media™ puts your brand in front of engaged, hyperlocal audiences across 30+ Texas markets. Details coming soon.</p>
+    <ul class="coming-soon-points">
+      <li>Sponsored content that reads like a local recommendation - not an ad</li>
+      <li>Targeted placement by city, region, or across the full Texas Shoutouts™ Network</li>
+      <li>Audience that actively supports local businesses and community organizations</li>
+      <li>Flexible formats: sponsored shoutouts, banner placements, newsletter features</li>
+    </ul>
+    <div class="coming-soon-cta">
+      <a href="mailto:advertise@shoutoutsmedia.com" class="btn-primary">Get Early Access</a>
+      <span class="coming-soon-note">We'll follow up within 1 business day.</span>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION: PUBLISHERS -->
+<section class="section coming-soon-section" id="publishers">
+  <div class="coming-soon-inner">
+    <div class="coming-soon-badge">
+      <span>★</span> Coming Soon
+    </div>
+    <div class="section-eyebrow">Join the Network</div>
+    <div class="section-divider"></div>
+    <h2 class="section-heading">Become a Shoutouts Media™ Publisher</h2>
+    <p class="section-sub">Interested in launching a Shoutouts publication in your city? We're expanding the network and looking for community-minded partners. Details coming soon.</p>
+    <ul class="coming-soon-points">
+      <li>Launch under the established Shoutouts Media™ brand with full editorial support</li>
+      <li>Access to our content platform, publishing tools, and growing advertiser relationships</li>
+      <li>Keep your community focus - we handle the infrastructure</li>
+      <li>Open to publishers in Texas and future Shoutouts Media™ markets nationwide</li>
+    </ul>
+    <div class="coming-soon-cta">
+      <a href="mailto:publishers@shoutoutsmedia.com" class="btn-primary">Express Interest</a>
+      <span class="coming-soon-note">Tell us your city and we'll be in touch.</span>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION: NOMINATION FORM -->
+<section class="section submit-section" id="nominate">
   <div class="submit-inner">
     <div class="submit-eyebrow">Lone Star Legend Program</div>
     <h2 class="submit-headline">Nominate a<br>Lone Star Legend</h2>
-    <p class="submit-copy">Know a local business, coach, creator, or community hero who deserves the spotlight? Submit a Shoutout. Selected nominations will be broadcast across our entire Shoutouts Media™ network — at no cost to the nominee.</p>
+    <p class="submit-copy">Know a local business, coach, creator, or community hero who deserves the spotlight? Submit a Shoutout. Selected nominations will be broadcast across our entire Shoutouts Media™ network - at no cost to the nominee.</p>
     <form class="submit-form" onsubmit="return false;">
       <div class="submit-row">
         <div class="form-field">
@@ -957,16 +1419,45 @@ button { cursor: pointer; font-family: inherit; }
 
 <!-- FOOTER -->
 <footer class="footer">
-  <div class="footer-brand">
-    <svg width="16" height="16" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <polygon points="25,2 31,18 48,18 34,28 39,45 25,35 11,45 16,28 2,18 19,18" />
-    </svg>
-    Shoutouts Media™
+  <div class="footer-top">
+    <div class="footer-brand-col">
+      <div class="footer-brand">
+        <svg width="18" height="18" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <polygon points="25,2 31,18 48,18 34,28 39,45 25,35 11,45 16,28 2,18 19,18" />
+        </svg>
+        Shoutouts <span>Media™</span>
+      </div>
+      <p class="footer-desc">The media company behind the Texas Shoutouts™ Network. Celebrating community stories across 70+ Texas markets.</p>
+    </div>
+    <div>
+      <div class="footer-col-heading">Shoutouts Media™</div>
+      <ul class="footer-col-links">
+        <li><a href="#about">About the Network</a></li>
+        <li><a href="#advertise">Advertise With Us</a></li>
+        <li><a href="#publishers">Join the Network</a></li>
+        <li><a href="#nominate">Give a Shoutout</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-heading">Featured Communities</div>
+      <ul class="footer-col-links">
+        <li><a href="https://houstontxshoutouts.com">Houston Shoutouts™</a></li>
+        <li><a href="https://dallasshoutouts.com">Dallas Shoutouts™</a></li>
+        <li><a href="https://fortworthshoutouts.com">Fort Worth Shoutouts™</a></li>
+        <li><a href="https://austinshoutouts.com">Austin Shoutouts™</a></li>
+        <li><a href="https://sanantonioshoutouts.com">San Antonio Shoutouts™</a></li>
+        <li><a href="https://elpasoshoutouts.com">El Paso Shoutouts™</a></li>
+      </ul>
+    </div>
   </div>
-  <div class="footer-attr">A Shoutouts Media™ Brand &nbsp;·&nbsp; © 2026 Shoutouts Media™. All rights reserved.</div>
+  <div class="footer-bottom">
+    <span>© 2026 Shoutouts Media™. All rights reserved.</span>
+    <span>A Shoutouts Media™ Brand</span>
+  </div>
 </footer>
 
 <script>
+// region filter
 const filterBar = document.getElementById('region-filter');
 const cards = document.querySelectorAll('#region-cards > [data-region]');
 
@@ -980,4 +1471,30 @@ filterBar.addEventListener('click', e => {
     card.style.display = (region === 'all' || card.dataset.region === region) ? '' : 'none';
   });
 });
+
+// mobile hamburger
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+hamburger.addEventListener('click', () => {
+  mobileMenu.classList.toggle('open');
+});
+mobileMenu.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => mobileMenu.classList.remove('open'));
+});
+
+// active nav highlight on scroll
+const sections = document.querySelectorAll('section[id], div[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(section => {
+    if (window.scrollY >= section.offsetTop - 80) {
+      current = section.id;
+    }
+  });
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+  });
+}, { passive: true });
 </script>
