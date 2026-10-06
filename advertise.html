@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Advertise - Shoutouts Media™</title>
+<meta name="description" content="Reach real Texas communities with Shoutouts Media™. Advertising opportunities across 70+ hyperlocal publications in the Texas Shoutouts™ Network.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+/* =====================
+   DESIGN TOKENS
+   ===================== */
+:root {
+  --navy:      #0A2342;
+  --navy-mid:  #0E2E58;
+  --gold:      #F5A623;
+  --gold-dark: #D48B0E;
+  --gold-pale: #FEF3DC;
+  --cream:     #FAF8F4;
+  --warm-grey: #6B6560;
+  --charcoal:  #1A1208;
+  --white:     #FFFFFF;
+  --rule:      #E2DDD6;
+
+  --bg:        var(--cream);
+  --surface:   var(--white);
+  --text-main: var(--charcoal);
+  --text-mute: var(--warm-grey);
+  --border:    var(--rule);
+  --hero-bg:   var(--navy);
+  --hero-text: var(--white);
+  --badge-bg:  var(--gold-pale);
+  --badge-txt: var(--gold-dark);
+
+  --font-display: 'Arial Black', 'Franklin Gothic Heavy', 'Impact', sans-serif;
+  --font-body:    system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --radius: 4px;
+  --radius-lg: 10px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:        #0F1924;
+    --surface:   #162032;
+    --text-main: #EDE8E0;
+    --text-mute: #9A9490;
+    --border:    #243044;
+    --hero-bg:   #06172B;
+    --hero-text: var(--white);
+    --badge-bg:  #2A1E00;
+    --badge-txt: var(--gold);
+  }
+}
+:root[data-theme="light"] {
+  --bg:        #FAF8F4;
+  --surface:   #FFFFFF;
+  --text-main: #1A1208;
+  --text-mute: #6B6560;
+  --border:    #E2DDD6;
+  --hero-bg:   #0A2342;
+  --hero-text: #FFFFFF;
+  --badge-bg:  #FEF3DC;
+  --badge-txt: #D48B0E;
+}
+:root[data-theme="dark"] {
+  --bg:        #0F1924;
+  --surface:   #162032;
+  --text-main: #EDE8E0;
+  --text-mute: #9A9490;
+  --border:    #243044;
+  --hero-bg:   #06172B;
+  --hero-text: #FFFFFF;
+  --badge-bg:  #2A1E00;
+  --badge-txt: #F5A623;
+}
+
+/* =====================
+   RESET & BASE
+   ===================== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text-main);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+button { cursor: pointer; font-family: inherit; }
+
+/* =====================
+   NAV
+   ===================== */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--hero-bg);
+  border-bottom: 2px solid var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(1rem, 5vw, 3rem);
+  height: 64px;
+  gap: 1rem;
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+.nav-star {
+  width: 28px;
+  height: 28px;
+  fill: var(--gold);
+  flex-shrink: 0;
+}
+.nav-wordmark {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  letter-spacing: 0.03em;
+  color: var(--white);
+  text-transform: uppercase;
+  line-height: 1;
+}
+.nav-wordmark span { color: var(--gold); }
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  list-style: none;
+}
+.nav-links a {
+  color: rgba(255,255,255,0.75);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--radius);
+  transition: color 0.15s, background 0.15s;
+  white-space: nowrap;
+}
+.nav-links a:hover {
+  color: var(--white);
+  background: rgba(255,255,255,0.08);
+}
+.nav-links a.active { color: var(--gold); }
+.nav-cta {
+  background: var(--gold);
+  color: var(--charcoal);
+  font-weight: 800;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: none;
+  padding: 0.6rem 1.25rem;
+  border-radius: var(--radius);
+  transition: background 0.15s;
+  white-space: nowrap;
+  flex-shrink: 0;
+  text-decoration: none;
+  display: inline-block;
+}
+.nav-cta:hover { background: var(--gold-dark); }
+
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  padding: 4px;
+}
+.nav-hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--white);
+  border-radius: 2px;
+  transition: all 0.2s;
+}
+.nav-mobile-menu {
+  display: none;
+  position: fixed;
+  top: 66px;
+  left: 0;
+  right: 0;
+  background: var(--navy);
+  border-bottom: 2px solid var(--gold);
+  padding: 1rem clamp(1rem, 5vw, 3rem);
+  z-index: 99;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.nav-mobile-menu.open { display: flex; }
+.nav-mobile-menu a {
+  color: rgba(255,255,255,0.8);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.6rem 0.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.nav-mobile-menu a:last-child { border-bottom: none; }
+
+@media (max-width: 720px) {
+  .nav-links { display: none; }
+  .nav-cta { display: none; }
+  .nav-hamburger { display: flex; }
+}
+
+/* =====================
+   PAGE HERO
+   ===================== */
+.page-hero {
+  background: var(--hero-bg);
+  color: var(--hero-text);
+  padding: clamp(3rem, 7vw, 5rem) clamp(1.5rem, 6vw, 4rem);
+  border-bottom: 2px solid var(--gold);
+}
+.page-hero-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1rem;
+}
+.page-hero-headline {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  line-height: 1.08;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
+/* =====================
+   SECTION
+   ===================== */
+.section {
+  padding: clamp(3rem, 7vw, 5.5rem) clamp(1.5rem, 6vw, 4rem);
+}
+.section-eyebrow {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold-dark);
+  margin-bottom: 0.6rem;
+}
+.section-heading {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  text-wrap: balance;
+  margin-bottom: 0.5rem;
+}
+.section-sub {
+  font-size: 1rem;
+  color: var(--text-mute);
+  max-width: 520px;
+  margin-bottom: 2.5rem;
+  line-height: 1.65;
+}
+.section-divider {
+  width: 48px;
+  height: 4px;
+  background: var(--gold);
+  margin-bottom: 1.2rem;
+  border-radius: 2px;
+}
+
+/* =====================
+   COMING SOON
+   ===================== */
+.coming-soon-section {
+  background: var(--surface);
+}
+.coming-soon-inner {
+  max-width: 680px;
+}
+.coming-soon-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  background: var(--navy);
+  color: var(--gold);
+  padding: 0.35rem 0.85rem;
+  border-radius: 2rem;
+  margin-bottom: 1.5rem;
+}
+.coming-soon-points {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+.coming-soon-points li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-size: 0.95rem;
+  color: var(--text-mute);
+  line-height: 1.55;
+}
+.coming-soon-points li::before {
+  content: '★';
+  color: var(--gold);
+  font-size: 0.7rem;
+  flex-shrink: 0;
+  margin-top: 0.3rem;
+}
+.coming-soon-cta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.coming-soon-note {
+  font-size: 0.82rem;
+  color: var(--text-mute);
+}
+.btn-primary {
+  background: var(--gold);
+  color: var(--charcoal);
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: none;
+  padding: 0.85rem 2rem;
+  border-radius: var(--radius);
+  transition: background 0.15s, transform 0.1s;
+  display: inline-block;
+}
+.btn-primary:hover { background: var(--gold-dark); transform: translateY(-1px); }
+
+/* =====================
+   FOOTER
+   ===================== */
+.footer {
+  background: var(--charcoal);
+  color: rgba(255,255,255,0.5);
+  padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 6vw, 4rem);
+}
+.footer-top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--white);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+.footer-brand svg { fill: var(--gold); }
+.footer-brand span { color: var(--gold); }
+.footer-desc {
+  font-size: 0.85rem;
+  line-height: 1.65;
+  color: rgba(255,255,255,0.45);
+  max-width: 280px;
+}
+.footer-col-heading {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1rem;
+}
+.footer-col-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.footer-col-links a {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.55);
+  transition: color 0.15s;
+}
+.footer-col-links a:hover { color: var(--white); }
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.3);
+}
+
+@media (max-width: 640px) {
+  .footer-top { grid-template-columns: 1fr; gap: 1.75rem; }
+}
+
+@media (prefers-color-scheme: dark) {
+  .section-eyebrow { color: var(--gold); }
+}
+:root[data-theme="dark"] .section-eyebrow { color: var(--gold); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="/" class="nav-logo">
+    <svg class="nav-star" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <polygon points="25,2 31,18 48,18 34,28 39,45 25,35 11,45 16,28 2,18 19,18" />
+    </svg>
+    <div class="nav-wordmark">Shoutouts <span>Media™</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/advertise" class="active">Advertising</a></li>
+    <li><a href="/publishers">Publishers</a></li>
+  </ul>
+  <a href="/#nominate" class="nav-cta">Give a Shoutout</a>
+  <button class="nav-hamburger" id="hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="nav-mobile-menu" id="mobile-menu">
+  <a href="/">Home</a>
+  <a href="/about">About</a>
+  <a href="/advertise">Advertising</a>
+  <a href="/publishers">Publishers</a>
+  <a href="/#nominate">Give a Shoutout</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-eyebrow">Shoutouts Media™</div>
+  <h1 class="page-hero-headline">Advertise With Us</h1>
+</div>
+
+<!-- ADVERTISE CONTENT -->
+<section class="section coming-soon-section">
+  <div class="coming-soon-inner">
+    <div class="coming-soon-badge">
+      <span>★</span> Coming Soon
+    </div>
+    <div class="section-eyebrow">Advertise With Us</div>
+    <div class="section-divider"></div>
+    <h2 class="section-heading">Reach Real Texas Communities</h2>
+    <p class="section-sub">Advertising with Shoutouts Media™ puts your brand in front of engaged, hyperlocal audiences across 30+ Texas markets. Details coming soon.</p>
+    <ul class="coming-soon-points">
+      <li>Sponsored content that reads like a local recommendation - not an ad</li>
+      <li>Targeted placement by city, region, or across the full Texas Shoutouts™ Network</li>
+      <li>Audience that actively supports local businesses and community organizations</li>
+      <li>Flexible formats: sponsored shoutouts, banner placements, newsletter features</li>
+    </ul>
+    <div class="coming-soon-cta">
+      <a href="mailto:advertise@shoutoutsmedia.com" class="btn-primary">Get Early Access</a>
+      <span class="coming-soon-note">We'll follow up within 1 business day.</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand">
+        <svg width="18" height="18" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <polygon points="25,2 31,18 48,18 34,28 39,45 25,35 11,45 16,28 2,18 19,18" />
+        </svg>
+        Shoutouts <span>Media™</span>
+      </div>
+      <p class="footer-desc">The media company behind the Texas Shoutouts™ Network. Celebrating community stories across 70+ Texas markets.</p>
+    </div>
+    <div>
+      <div class="footer-col-heading">Shoutouts Media™</div>
+      <ul class="footer-col-links">
+        <li><a href="/about">About the Network</a></li>
+        <li><a href="/advertise">Advertise With Us</a></li>
+        <li><a href="/publishers">Join the Network</a></li>
+        <li><a href="/#nominate">Give a Shoutout</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-heading">Featured Communities</div>
+      <ul class="footer-col-links">
+        <li><a href="https://houstontxshoutouts.com">Houston Shoutouts™</a></li>
+        <li><a href="https://dallasshoutouts.com">Dallas Shoutouts™</a></li>
+        <li><a href="https://fortworthshoutouts.com">Fort Worth Shoutouts™</a></li>
+        <li><a href="https://austinshoutouts.com">Austin Shoutouts™</a></li>
+        <li><a href="https://sanantonioshoutouts.com">San Antonio Shoutouts™</a></li>
+        <li><a href="https://elpasoshoutouts.com">El Paso Shoutouts™</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Shoutouts Media™. All rights reserved.</span>
+    <span>A Shoutouts Media™ Brand</span>
+  </div>
+</footer>
+
+<script>
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+mobileMenu.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => mobileMenu.classList.remove('open'));
+});
+</script>
+
+</body>
+</html>
