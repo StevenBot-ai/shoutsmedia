@@ -373,9 +373,7 @@ button { cursor: pointer; font-family: inherit; }
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
-@media (prefers-reduced-motion: reduce) {
-  .ticker-track { animation: none; }
-}
+/* ticker always scrolls regardless of motion preference */
 
 /* =====================
    SECTION WRAPPER
